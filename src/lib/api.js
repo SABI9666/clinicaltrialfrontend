@@ -39,6 +39,13 @@ export const submitEnquiry = (payload) =>
   request('/api/public/enquiries', { method: 'POST', body: JSON.stringify(payload) });
 
 /**
+ * Register interest in a trial. The server emails this to the chosen centre
+ * and stores none of it, so there is nothing to fetch back afterwards.
+ */
+export const submitRegistration = (payload) =>
+  request('/api/public/registrations', { method: 'POST', body: JSON.stringify(payload) });
+
+/**
  * Resolve an image path to a URL the browser can load.
  * Absolute URLs (Cloud Storage) pass through; API-relative uploads get the
  * API origin; bundled /media assets are served by Vercel.
