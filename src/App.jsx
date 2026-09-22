@@ -5,6 +5,7 @@ import Hero from './components/Hero.jsx';
 import HeroWide from './components/HeroWide.jsx';
 import TrialsSection from './components/TrialsSection.jsx';
 import TrialDialog from './components/TrialDialog.jsx';
+import RegistrationDialog from './components/RegistrationDialog.jsx';
 import Journey from './components/Journey.jsx';
 import WhyJoin from './components/WhyJoin.jsx';
 import Insights from './components/Insights.jsx';
@@ -17,14 +18,24 @@ export default function App() {
   const { site } = useSite();
 
   const [openTrial, setOpenTrial] = useState(null);
+  const [registerTrial, setRegisterTrial] = useState(null);
   const [openPolicy, setOpenPolicy] = useState(null);
   const [insightsTab, setInsightsTab] = useState('reports');
   const [enquiryTrialSlug, setEnquiryTrialSlug] = useState('');
   const enquiryRef = useRef(null);
 
-  /** Close the trial dialog, prefill the enquiry and send the user to it. */
+  /**
+   * The trial dialog's button. Trials that use the registration form open it;
+   * the rest fall back to prefilling the ordinary enquiry form below.
+   */
   const onEnquire = useCallback((trial) => {
     setOpenTrial(null);
+
+    if (trial.registration?.enabled !== false && trial.slug) {
+      setRegisterTrial(trial);
+      return;
+    }
+
     setEnquiryTrialSlug(trial.slug ?? '');
 
     const prefill = trial.detail?.enquiryPrefill;
@@ -95,6 +106,12 @@ export default function App() {
       />
 
       <TrialDialog trial={openTrial} onClose={() => setOpenTrial(null)} onEnquire={onEnquire} />
+
+      <RegistrationDialog
+        trial={registerTrial}
+        centres={site.centres ?? []}
+        onClose={() => setRegisterTrial(null)}
+      />
       <PolicyDialog policy={openPolicy} onClose={() => setOpenPolicy(null)} />
     </>
   );
