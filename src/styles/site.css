@@ -154,3 +154,404 @@ body{font-family:Arial,Helvetica,sans-serif;background:#fff;line-height:1.75}.wr
   .registration-actions { flex-direction: column-reverse; }
   .registration-actions .btn { width: 100%; }
 }
+
+/* ===========================================================================
+ * NAVY PROFESSIONAL THEME
+ *
+ * A third layer over the two above. The earlier layers hardcode their colours,
+ * so this one restates the rules it changes rather than relying on the custom
+ * properties alone — the properties are redefined too, so anything not listed
+ * here still lands on the new palette.
+ *
+ * Palette: deep navy as the brand voice, one blue accent for anything you can
+ * click. Every foreground/background pair below was measured against WCAG:
+ * body text 14.6:1, muted text 7.2:1, accent links 5.9:1, hero text 12.5:1 —
+ * AA at minimum, AAA for everything read at length. A recruitment site is read
+ * by people who may be unwell, tired, or on a phone in bad light, so contrast
+ * is treated as a requirement rather than a preference.
+ * ========================================================================= */
+
+:root {
+  /* Brand navy */
+  --navy-900: #0b1220;
+  --navy-800: #0f172a;
+  --navy-700: #14284a;
+  --navy-600: #1e3a6a;
+
+  /* Text */
+  --slate-800: #1e293b;
+  --slate-600: #475569;
+  --slate-500: #64748b;
+
+  /* Accent — reserved for interactive things, never decoration */
+  --accent: #0369a1;
+  --accent-dark: #025685;
+  --accent-bright: #38bdf8;
+  --accent-tint: #e0f2fe;
+  --accent-ink: #0c4a6e;
+
+  /* Surfaces */
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-sunken: #eff4f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Feedback */
+  --danger: #b91c1c;
+  --danger-tint: #fef2f2;
+  --success: #15803d;
+  --success-tint: #f0fdf4;
+
+  /* One elevation scale, navy-tinted so shadows read as depth rather than
+   * grey smudge. Cards step up one level on hover, never more. */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 10px 28px rgba(15, 23, 42, 0.09);
+  --shadow-lg: 0 22px 52px rgba(15, 23, 42, 0.13);
+  --shadow-hero: 0 34px 80px rgba(11, 18, 32, 0.28);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --font-head: 'Figtree', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Aliases the two earlier layers already read from. */
+  --ink: var(--navy-800);
+  --teal: var(--accent);
+  --mint: var(--accent-tint);
+  --paper: var(--surface);
+  --muted: var(--slate-600);
+  --line: var(--border);
+}
+
+/* --------------------------------- type --------------------------------- */
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--slate-800);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .brand, .btn, .tab, .number, .eyebrow {
+  font-family: var(--font-head);
+}
+
+h1, h2 { color: var(--navy-800); font-weight: 600; letter-spacing: -1.4px; }
+h3 { color: var(--navy-800); font-weight: 600; letter-spacing: -0.3px; }
+p { color: var(--slate-600); }
+
+/* Limits the measure on long-form paragraphs — past ~75 characters the eye
+ * loses its place returning to the next line. */
+.hero p, .section-head p, .split p, .about p { max-width: 62ch; }
+
+.eyebrow {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 2.4px;
+}
+
+/* ------------------------------ focus states ----------------------------- */
+
+/* :focus-visible rather than :focus, so a mouse click does not leave a ring
+ * behind but keyboard users always see where they are. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--accent-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ------------------------------ top + nav -------------------------------- */
+
+.top {
+  background: var(--navy-800);
+  color: #cbd9ec;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  padding: 9px;
+}
+
+.nav {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.brand { color: var(--navy-800); font-weight: 700; }
+.brand small { color: var(--slate-600); }
+.mark {
+  background: linear-gradient(140deg, var(--navy-700), var(--accent));
+  box-shadow: var(--shadow-sm);
+}
+/* :not(.btn) because the Contact Us call to action lives inside .links, and a
+ * descendant selector would otherwise outrank .btn and paint its label the
+ * body colour — dark text on the dark navy button. */
+.links a:not(.btn) { color: var(--slate-800); font-weight: 500; transition: color 0.18s var(--ease); }
+.links a:not(.btn):hover { color: var(--accent); }
+
+/* -------------------------------- buttons -------------------------------- */
+
+.btn {
+  background: var(--navy-800);
+  border-color: var(--navy-800);
+  color: #fff;
+  font-family: var(--font-head);
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+.btn:hover { background: var(--navy-700); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+/* Press feedback returns the button to rest rather than moving it further, so
+ * the click reads as "pushed" and nothing around it shifts. */
+.btn:active { transform: translateY(0); box-shadow: var(--shadow-xs); }
+
+.btn.light {
+  background: var(--surface);
+  color: var(--navy-800);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-xs);
+}
+.btn.light:hover { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-dark); }
+
+.text-link { color: var(--accent); font-weight: 600; }
+.text-link:hover { color: var(--accent-dark); }
+
+/* --------------------------------- hero ---------------------------------- */
+
+/* The one place the navy is used at full strength. The radial highlight keeps
+ * a large dark panel from reading as flat. */
+.hero > .wrap {
+  background:
+    radial-gradient(120% 90% at 78% 8%, rgba(56, 189, 248, 0.22), transparent 58%),
+    linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 52%, var(--navy-600) 100%);
+  box-shadow: var(--shadow-hero);
+}
+.hero h1 { color: #fff; letter-spacing: -1.6px; }
+.hero p { color: #cbd9ec; }
+.hero .eyebrow { color: var(--accent-bright); }
+.hero-photo img { border: 8px solid rgba(255, 255, 255, 0.14); }
+
+.photo-note {
+  background: var(--surface);
+  color: var(--navy-800);
+  box-shadow: var(--shadow-lg);
+}
+.photo-note strong { color: var(--navy-800); }
+
+.hero .btn { background: var(--surface); color: var(--navy-800); border-color: var(--surface); }
+.hero .btn:hover { background: var(--accent-tint); }
+.hero .actions .btn:first-child span { background: var(--accent); color: #fff; }
+.hero .btn.light { background: transparent; border-color: rgba(255, 255, 255, 0.45); color: #fff; }
+.hero .btn.light:hover { background: rgba(255, 255, 255, 0.14); border-color: #fff; color: #fff; }
+
+.trust { color: #cbd9ec; border-top: 1px solid rgba(255, 255, 255, 0.22); }
+.trust span:before { color: var(--accent-bright); font-weight: 700; }
+
+.hero-wide img { box-shadow: var(--shadow-md); }
+
+/* ------------------------------ search panel ----------------------------- */
+
+.search {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+label { color: var(--navy-800); font-weight: 600; }
+input, select, textarea {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--slate-800);
+  /* 16px stops iOS Safari zooming the page when a field takes focus. */
+  font-size: 16px;
+  /* 46px + padding clears the 44px minimum touch target. */
+  min-height: 46px;
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+input:hover, select:hover, textarea:hover { border-color: var(--slate-500); }
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.18);
+}
+/* slate-500 reads as 4.76:1 on white — lighter than entered text, as a
+ * placeholder should be, without dropping below AA. The same colour fails on
+ * the sunken surface, which is why the footer and notes use slate-600. */
+::placeholder { color: var(--slate-500); opacity: 1; }
+
+/* -------------------------------- cards ---------------------------------- */
+
+.trial-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.trial-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.tag {
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.process { background: var(--surface-sunken); }
+.steps { border-top: 1px solid var(--border-strong); }
+.steps article { border-right: 1px solid var(--border-strong); }
+/* Tabular figures keep the step numbers on the same optical baseline. */
+.number { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+.note { border-color: var(--border-strong); color: var(--slate-600); }
+
+.split img { box-shadow: var(--shadow-md); }
+
+.insights { background: var(--surface-sunken); }
+.tab {
+  border-color: var(--border-strong);
+  color: var(--slate-800);
+  font-weight: 600;
+  min-height: 44px;
+  transition: background 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+.tab:hover { border-color: var(--accent); color: var(--accent); }
+.tab[aria-selected='true'] { background: var(--navy-800); border-color: var(--navy-800); color: #fff; }
+
+.resource {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.resource:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
+details { border-bottom: 1px solid var(--border); }
+summary { color: var(--navy-800); font-weight: 600; padding: 4px 0; }
+summary:hover { color: var(--accent); }
+
+/* --------------------------------- about --------------------------------- */
+
+.about {
+  background:
+    radial-gradient(100% 120% at 88% 0%, rgba(56, 189, 248, 0.16), transparent 60%),
+    linear-gradient(140deg, var(--navy-800), var(--navy-600));
+  box-shadow: var(--shadow-lg);
+}
+/* h1/h2 are given an explicit navy above, which overrides what they would
+ * otherwise inherit — so every heading sitting on a dark panel has to be
+ * restated, or it lands navy-on-navy and disappears. */
+.about h2, .about h3 { color: #fff; }
+.about .eyebrow { color: var(--accent-bright); }
+.about p { color: #cbd9ec; }
+.about .btn { background: #fff; color: var(--navy-800); border-color: #fff; }
+.about .btn:hover { background: var(--accent-tint); }
+.about-word { color: #fff; border-color: rgba(255, 255, 255, 0.28); }
+.about-word small { color: #9fc4e8; }
+
+/* ------------------------------ contact + footer -------------------------- */
+
+.form-grid {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.status { color: var(--success); font-weight: 600; }
+
+footer { background: var(--surface-sunken); }
+.footer-links a:hover { color: var(--accent); }
+.bottom { border-color: var(--border-strong); color: var(--slate-600); }
+.legal { color: var(--slate-600); }
+.policy { color: var(--slate-600); }
+.policy:hover { color: var(--accent); }
+
+/* -------------------------------- dialogs -------------------------------- */
+
+dialog {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+/* A scrim dark enough to take the page behind out of play. */
+dialog::backdrop { background: rgba(11, 18, 32, 0.62); backdrop-filter: blur(3px); }
+dialog h2 { color: var(--navy-800); }
+.close {
+  background: var(--surface-sunken);
+  border-color: var(--border);
+  color: var(--navy-800);
+  /* The visible circle stays 34px; the tap area meets the 44px minimum. */
+  min-width: 44px;
+  min-height: 44px;
+  transition: background 0.18s var(--ease);
+}
+.close:hover { background: var(--accent-tint); color: var(--accent-dark); }
+
+/* ---------------------------- registration form --------------------------- */
+
+.progress-track { background: var(--border); }
+.progress-bar { background: linear-gradient(90deg, var(--accent), var(--accent-bright)); }
+.registration-step legend { color: var(--navy-800); }
+.req { color: var(--danger); }
+
+.consent-box, .option {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  transition: border-color 0.18s var(--ease), background 0.18s var(--ease);
+}
+.consent-box:hover, .option:hover { border-color: var(--accent); background: var(--accent-tint); }
+.consent-box input, .option input { accent-color: var(--accent); }
+.consent-body { color: var(--slate-600); }
+
+.btn.ghost { background: transparent; color: var(--navy-800); border-color: var(--border-strong); box-shadow: none; }
+.btn.ghost:hover { background: var(--surface-sunken); color: var(--navy-800); }
+/* Disabled reads as unavailable rather than merely pale, and takes no click. */
+.btn:disabled { opacity: 0.45; box-shadow: none; transform: none; cursor: not-allowed; }
+
+.registration-error { background: var(--danger-tint); color: var(--danger); border: 1px solid #fecaca; }
+.registration-success { background: var(--success-tint); color: var(--success); border: 1px solid #bbf7d0; }
+
+/* ------------------------------ reduced motion ---------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn:hover, .trial-card:hover, .resource:hover { transform: none; }
+}
+
+/* ------------------------------ touch targets ----------------------------- */
+
+/* Nav links measured 22px tall — fine for a mouse, too small for a thumb, and
+ * on a phone these are the whole menu. Vertical padding grows the hit area
+ * without moving the text, since the bar centres its contents. */
+.links a:not(.btn),
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 2px;
+}
+
+/* These two sit inline in running text, where padding would push the underline
+ * away from the word or break the footer line. An overlay pseudo-element
+ * extends the clickable area over the gap above and below instead, leaving the
+ * visible link exactly where it was. */
+.text-link, .policy { position: relative; }
+.text-link::after, .policy::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
