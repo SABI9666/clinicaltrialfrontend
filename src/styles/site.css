@@ -663,3 +663,33 @@ dialog h2 { color: var(--navy-800); }
   .result:not(:has(.result-thumb)) .result-copy { padding-left: 18px; }
   .result-list { max-height: 54vh; }
 }
+
+/* ------------------------- trial call to action --------------------------- */
+
+/* The card's way into a trial. It was a text link, which on a card full of
+ * prose reads as more prose — people did not see it as the thing to press. */
+.trial-cta { margin-top: 18px; }
+
+/* The same control inside a search result. It cannot be a real button, because
+ * the whole row is already one and nesting buttons is invalid, so this is the
+ * row's own affordance styled to look like what it is. */
+.result-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 10px 18px;
+  border-radius: 40px;
+  background: var(--navy-800);
+  color: #fff;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+  transition: background 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.result:hover .result-cta {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}

@@ -146,7 +146,9 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
               {(trial.summary ?? []).map((text, i) => (
                 <p key={i}>{text}</p>
               ))}
-              <button className="text-link" onClick={() => onLearnMore(trial)}>
+              {/* A button, not a text link: this is the only way into a trial from
+                  the card, and underlined blue text reads as body copy. */}
+              <button className="btn trial-cta" onClick={() => onLearnMore(trial)}>
                 {trial.learnMoreLabel ?? 'Learn more about this trial ↗'}
               </button>
             </div>
