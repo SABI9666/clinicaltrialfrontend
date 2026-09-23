@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import Image from './Image.jsx';
+import SearchResultsDialog from './SearchResultsDialog.jsx';
 
 const ANY = '';
 
@@ -24,6 +25,7 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
     age: ANY,
   });
   const [submitted, setSubmitted] = useState(null);
+  const [showResults, setShowResults] = useState(false);
 
   const states = useMemo(() => {
     const country = facets?.countries?.find((c) => c.name === filters.country);
@@ -46,11 +48,22 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
   const onSubmit = (e) => {
     e.preventDefault();
     setSubmitted(filters);
+    // The results render below the fold, so a search that only updated them
+    // looked like a button that did nothing. Answer in the viewport instead.
+    setShowResults(true);
   };
 
   const onReset = () => {
     setFilters({ condition: ANY, country: ANY, state: ANY, age: ANY });
     setSubmitted(null);
+    setShowResults(false);
+  };
+
+  /* Closes the results before opening the trial, so only one dialog is ever
+   * modal — two at once would trap focus in the wrong one. */
+  const onViewTrial = (trial) => {
+    setShowResults(false);
+    onLearnMore(trial);
   };
 
   const resultText = !submitted
@@ -139,6 +152,16 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
             </div>
           </article>
         ))}
+
+        <SearchResultsDialog
+          open={showResults}
+          filters={submitted}
+          results={visible}
+          section={section}
+          onClose={() => setShowResults(false)}
+          onViewTrial={onViewTrial}
+          onReset={onReset}
+        />
 
         {visible.length === 0 && (
           <div className="resource">
