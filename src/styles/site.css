@@ -1,0 +1,695 @@
+/* ---------------------------------------------------------------------------
+ * Clinical Trial Access — site styles
+ *
+ * Ported verbatim from the supplied HTML demo so the React build renders
+ * pixel-identically. Two layers, in the original order:
+ *   1. the base green/teal system
+ *   2. the blue clinical theme that overrides it
+ * --------------------------------------------------------------------------- */
+
+:root{--ink:#173f3e;--teal:#125e58;--mint:#e5eee7;--paper:#fafaf6;--muted:#526864;--line:#d9e2da}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Arial,sans-serif}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button,a,input,select,textarea,summary{outline-offset:5px}button{cursor:pointer}h1,h2,h3,p{margin-top:0}h1,h2{font-family:Georgia,serif;font-weight:400;line-height:1.08;letter-spacing:-1.8px}h1{font-size:clamp(46px,5.3vw,76px);margin-bottom:24px}h2{font-size:clamp(36px,4vw,52px);margin-bottom:22px}h3{font-size:23px;line-height:1.3}p{color:var(--muted)}.wrap{max-width:1240px;margin:auto;padding:0 40px}.top{background:var(--ink);color:#e5eee7;font-size:12px;text-align:center;padding:7px}.nav{position:sticky;top:0;z-index:10;background:#fafaf6f5;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:88px}.brand{display:flex;gap:12px;align-items:center;font-weight:700;line-height:1.12;font-size:18px}.mark{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--teal);color:white;font-size:29px}.brand small{font-size:12px;letter-spacing:2px;font-weight:400}.links{display:flex;align-items:center;gap:26px;font-size:14px}.links a:hover{color:#23877b}.btn{display:inline-flex;align-items:center;justify-content:center;gap:22px;border:1px solid var(--teal);background:var(--teal);color:white;padding:13px 23px;border-radius:5px;font-weight:600;font-size:14px;transition:.2s}.btn:hover{background:#0c4944;transform:translateY(-2px)}.btn.light{background:transparent;color:var(--teal)}.btn.light:hover{background:var(--mint)}.eyebrow{display:block;letter-spacing:2px;text-transform:uppercase;font-size:11px;font-weight:bold;margin-bottom:20px;color:var(--teal)}.hero{padding:68px 0 0}.hero-grid{display:grid;grid-template-columns:1fr 1.08fr;gap:60px;align-items:center}.hero p{font-size:17px;max-width:510px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0}.hero-photo{position:relative;padding-bottom:28px}.hero-photo img{width:100%;height:490px;object-fit:cover;object-position:44%;border-radius:130px 8px 8px 8px}.photo-note{position:absolute;bottom:0;left:-24px;background:var(--mint);padding:19px 27px;border:6px solid var(--paper);font-size:14px;border-radius:8px}.photo-note strong{display:block;font-size:18px}.trust{margin-top:48px;padding:22px 0;display:flex;justify-content:space-between;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:13px;gap:24px}.trust span:before{content:'✓';margin-right:10px;color:var(--teal)}section{padding:85px 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:30px}.section-head p{max-width:530px;margin-bottom:0}.search{display:grid;grid-template-columns:1.4fr 1fr 1.2fr 1fr auto;gap:12px;background:white;border:1px solid var(--line);padding:22px;border-radius:9px;margin-bottom:22px;align-items:end}label{display:block;font-size:12px;font-weight:600}input,select,textarea{display:block;width:100%;padding:12px;border:1px solid #c9d5cd;border-radius:4px;background:white;color:var(--ink);margin-top:7px;min-width:0}select{font-size:13px}.small{font-size:12px}.trial-card{display:grid;grid-template-columns:.8fr 1.2fr;background:white;border:1px solid var(--line);border-radius:10px;overflow:hidden}.trial-card img{width:100%;height:100%;min-height:330px;object-fit:cover}.trial-copy{padding:34px 40px}.tag{display:inline-block;background:var(--mint);padding:5px 11px;border-radius:30px;font-size:11px;letter-spacing:.4px;margin-bottom:20px}.trial-copy h3{font-family:Georgia,serif;font-size:32px;font-weight:400;margin-bottom:15px}.trial-copy p{font-size:14px}.text-link{font-weight:600;font-size:14px;border:0;border-bottom:1px solid var(--teal);padding:0 0 4px;background:transparent;color:var(--teal)}.process{background:var(--mint)}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:26px;margin:40px 0 28px}.number{display:grid;place-items:center;border:1px solid #99b4a7;width:40px;height:40px;border-radius:50%;margin-bottom:22px;font-family:Georgia,serif;font-size:21px}.steps h3{font-size:17px}.steps p{font-size:13px}.note{border-top:1px solid #bfd0c3;padding-top:20px;font-size:12px}.split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}.split img{width:100%;height:470px;object-fit:cover;border-radius:8px 100px 8px 8px}.insights{background:#f0f3ed}.tabs{display:flex;gap:10px;margin-bottom:26px}.tab{border:1px solid var(--line);background:transparent;padding:9px 22px;border-radius:30px;color:var(--ink)}.tab[aria-selected=true]{background:var(--ink);color:white}.resources{display:grid;grid-template-columns:1fr 1fr;gap:22px}.resource{background:var(--paper);padding:32px;border-radius:6px;border:1px solid var(--line)}.resource p{margin:0;font-size:14px}.resource h3{font-family:Georgia,serif;font-size:28px;font-weight:400}details{border-bottom:1px solid #cad7ce;padding:20px 0}summary{cursor:pointer;font-weight:600}details p{font-size:14px;margin:14px 0 0}.about{background:var(--ink);color:white}.about p{color:#cadbd4}.about .eyebrow{color:#b1d9c9}.about .btn{background:#dceadf;color:var(--ink);border:0}.about-word{font-family:Georgia,serif;font-size:44px;line-height:1.2;border-left:1px solid #62817a;padding-left:50px}.about-word small{display:block;font-family:Arial,sans-serif;letter-spacing:2px;font-size:11px;margin-top:20px;color:#c0d4ca}.contact-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:90px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.full{grid-column:1/-1}textarea{resize:vertical}.status{color:var(--teal);font-size:14px;margin-top:15px}footer{border-top:1px solid var(--line);padding:48px 0 25px}.footer-top{display:flex;justify-content:space-between;gap:40px;margin-bottom:25px}.footer-top p{max-width:440px;font-size:13px;margin-top:20px}.footer-links{display:flex;gap:20px;flex-wrap:wrap;font-size:13px}.legal{font-size:11px;max-width:990px}.bottom{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:20px;font-size:11px;gap:20px}.policy{background:none;border:0;color:var(--ink);font-size:11px;padding:0;margin-left:13px;text-decoration:underline}dialog{max-width:720px;width:calc(100% - 32px);max-height:85vh;border:1px solid var(--line);border-radius:10px;padding:35px;color:var(--ink);background:var(--paper)}dialog::backdrop{background:#102e2bd0}dialog h2{font-size:38px}dialog p{font-size:15px}.close{float:right;border:1px solid var(--line);border-radius:50%;width:34px;height:34px;background:white;color:var(--ink)}.menu{display:none}.skip{position:absolute;top:-80px;background:white;padding:10px;z-index:30}.skip:focus{top:0}[hidden]{display:none!important} @media(max-width:950px){.links{gap:14px}.search{grid-template-columns:1fr 1fr}.search .btn{grid-column:1/-1}.hero-grid,.split{gap:30px}.hero-photo img{height:450px}.contact-grid{gap:35px}.steps{gap:15px}.wrap{padding:0 25px}}@media(max-width:700px){.menu{display:block;background:none;border:1px solid var(--line);padding:8px 13px;border-radius:5px;color:var(--ink)}.links{display:none;position:absolute;top:88px;left:0;right:0;background:var(--paper);padding:25px;flex-direction:column;align-items:stretch}.links.open{display:flex}.hero{padding-top:40px}.hero-grid,.split,.contact-grid,.trial-card{grid-template-columns:1fr}.hero-photo img{height:340px}.hero-photo{margin-left:18px}.photo-note{left:-18px}.trust{flex-wrap:wrap;gap:12px}.steps{grid-template-columns:1fr}.steps article{display:grid;grid-template-columns:40px 1fr;column-gap:18px}.steps .number{grid-row:1/3}.steps h3{margin-bottom:8px}.steps p{grid-column:2}.section-head{align-items:start;flex-direction:column}.resources{grid-template-columns:1fr}section{padding:56px 0}.trial-card img{height:240px;min-height:0}.trial-copy{padding:25px}.split img{height:320px}.about-word{padding-left:25px;font-size:35px}.footer-top,.bottom{flex-direction:column}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.search{padding:16px}.hero-grid{gap:24px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+
+/* Reference-inspired blue clinical design */
+:root{--ink:#183966;--teal:#1d4277;--mint:#eaf3fb;--paper:#fff;--muted:#5d6979;--line:#dce6ef}
+body{font-family:Arial,Helvetica,sans-serif;background:#fff;line-height:1.75}.wrap{max-width:1320px;padding:0 42px}h1,h2,h3{font-family:Arial,Helvetica,sans-serif}h1,h2{font-weight:600;letter-spacing:-1.7px}h1{font-size:clamp(44px,5.1vw,70px);line-height:1.12}h2{font-size:clamp(34px,3.6vw,49px);line-height:1.17}h3{font-weight:600}.top{background:#edf4fa;color:#34577d;font-size:11px;padding:5px}.nav{background:#fffffff7;border:0}.nav .wrap{min-height:90px}.brand{color:#193d70;font-size:20px}.brand small{font-size:11px;letter-spacing:3px}.mark{background:#337fbb;width:47px;height:47px}.links{gap:28px}.btn{border-radius:40px;background:#1d4277;border-color:#1d4277;padding:13px 24px;font-weight:500;min-height:53px}.btn:hover{background:#2a6098}.btn.light{color:#204577;background:#fff;border-color:#cbdced}.btn.light:hover{background:#eaf3fb}.eyebrow{color:#347eb5;font-size:11px;letter-spacing:2px}.hero{padding:0 28px}.hero>.wrap{max-width:1440px;background:#3282be;border-radius:40px;padding:65px 52px 0;overflow:hidden;position:relative}.hero-grid{grid-template-columns:1.15fr .85fr;gap:48px;position:relative;z-index:1;min-height:420px}.hero h1{color:#fff;margin-bottom:24px}.hero p{color:#edf6fd;font-size:16px}.hero .eyebrow{color:#daeeff}.hero-photo{padding-bottom:0}.hero-photo img{height:370px;border-radius:180px 180px 26px 26px;object-position:45%;border:7px solid #ffffff26}.photo-note{bottom:-18px;left:-28px;background:#fff;color:#204577;border:0;padding:19px 25px;border-radius:18px;box-shadow:0 15px 35px #173d6520}.photo-note strong{font-size:18px}.hero .btn.light{background:transparent;border-color:#add1ec;color:#fff}.hero .btn.light:hover{background:#ffffff18}.hero .actions{gap:12px}.hero .actions .btn:first-child span{border-radius:50%;display:grid;place-items:center;background:white;color:#1d4277;width:28px;height:28px}.trust{color:#e5f4ff;border-top:1px solid #ffffff35;border-bottom:0;padding:22px 0;margin-top:60px}.trust span:before{color:#fff}.hero:after{content:none}.hero-wide{max-width:1384px;margin:42px auto 0;padding:0 28px}.hero-wide img{width:100%;height:330px;object-fit:cover;object-position:50% 52%;border-radius:35px;display:block}.hero-wide figcaption{font-size:11px;color:var(--muted);text-align:right;padding-top:8px}section{padding:82px 0}.section-head{margin-bottom:35px}.search{background:#edf5fb;border:0;border-radius:22px;padding:26px;gap:15px}.search label{font-size:12px}input,select,textarea{border-radius:10px;border-color:#d5e0ea;padding:13px}input:focus,select:focus,textarea:focus{outline:2px solid #3a87c2}.trial-card{border-radius:28px;background:#f4f8fc;border:0;grid-template-columns:.9fr 1.1fr}.trial-card img{min-height:350px}.trial-copy{padding:40px}.trial-copy h3{font-family:Arial,sans-serif;font-size:32px;font-weight:600;letter-spacing:-1px}.tag{background:#dcecf8;color:#285c86;font-size:10px;padding:7px 14px}.text-link{border:0;color:#1c467d;font-weight:bold}.process{margin:0 28px;background:#eef5fb;border-radius:36px}.process h2{max-width:600px}.steps{gap:0;border-top:1px solid #cbdde9;padding-top:32px}.steps article{padding:0 22px;border-right:1px solid #cbdde9}.steps article:first-child{padding-left:0}.steps article:last-child{border:0}.number{border:0;background:transparent;width:auto;height:auto;display:block;font-family:Arial,sans-serif;font-size:40px;font-weight:500;color:#3484bd;line-height:1;margin-bottom:25px}.steps h3{font-size:17px}.note{border-color:#d2e1ed}.split img{border-radius:30px;height:480px}.insights{margin:0 28px;border-radius:36px;background:#f3f7fb}.tab{border-radius:30px;border-color:#d0dfeb}.resource{border:0;border-radius:22px;background:white;padding:35px}.resource h3{font-family:Arial,sans-serif;font-size:25px;font-weight:600}.tabs{margin-bottom:30px}.about{background:#1d4277;margin:45px 28px 0;border-radius:36px}.about .eyebrow{color:#b1d7f2}.about p{color:#dce9f7}.about .btn{background:#fff;color:#214779}.about-word{font-family:Arial,sans-serif;font-size:40px;font-weight:500;border-color:#6482a5}.about-word small{color:#c1def3}.form-grid{padding:30px;background:#f1f6fb;border-radius:26px}.contact-grid{gap:70px}.contact-grid .note{margin-top:30px}footer{border:0;background:#eef5fa;border-radius:36px 36px 0 0;margin:0 28px}.bottom{border-color:#d2dfeb}dialog{border-radius:25px;padding:38px}.close{background:#edf4fa}.status{color:#245982}.section-head h2{margin-bottom:18px}@media(min-width:1500px){.hero-wide{padding:0}}
+@media(max-width:950px){.wrap{padding:0 28px}.hero>.wrap{padding:42px 30px 0}.hero-grid{gap:24px}.hero-photo img{height:350px}.hero h1{font-size:48px}.links{gap:15px}.hero .actions .btn{font-size:12px;padding:11px 15px}.steps article{padding:0 12px}.contact-grid{gap:32px}.hero-wide img{height:280px}}
+@media(max-width:700px){.top{font-size:10px}.hero{padding:0 14px}.hero>.wrap{padding:35px 23px 0;border-radius:26px}.hero-grid{grid-template-columns:1fr;gap:25px}.hero h1{font-size:43px}.hero p{font-size:15px}.hero-photo{margin:0 10px 15px}.hero-photo img{height:285px;border-radius:100px 100px 20px 20px}.photo-note{left:-10px;bottom:-12px;padding:12px 20px;font-size:12px}.photo-note strong{font-size:16px}.trust{margin-top:25px;font-size:11px;padding:19px 0;gap:10px}.hero-wide{padding:0 14px;margin:25px 0 0}.hero-wide img{height:210px;border-radius:24px}.hero-wide figcaption{text-align:center;font-size:10px}.wrap{padding:0 23px}.links{top:90px}.search{border-radius:20px;padding:19px}.trial-card{grid-template-columns:1fr;border-radius:23px}.trial-card img{min-height:0;height:240px}.trial-copy{padding:26px}.process,.insights,.about{margin-left:14px;margin-right:14px;border-radius:26px}.steps{gap:20px}.steps article,.steps article:first-child{padding:0;border:0;grid-template-columns:45px 1fr}.number{font-size:30px}.steps p{margin-bottom:0}.split img{height:320px;border-radius:24px}.about-word{font-size:31px}.contact-grid{gap:20px}.form-grid{padding:22px}.footer-top{gap:15px}footer{margin:0 14px;border-radius:26px 26px 0 0}section{padding:55px 0}.hero .actions .btn{font-size:12px}.hero .actions{gap:9px}}
+
+/* --------------------------- registration form ---------------------------
+ * The three-step "register interest" dialog. Sized so each step fits without
+ * scrolling on a laptop, because a form that jumps as you advance feels
+ * broken.
+ * ------------------------------------------------------------------------- */
+
+.registration h2 { margin-bottom: 10px; }
+.registration > p { font-size: 15px; margin-bottom: 22px; }
+
+.registration-progress {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.progress-track {
+  height: 9px;
+  border-radius: 20px;
+  background: #e3ecf4;
+  overflow: hidden;
+  margin-bottom: 26px;
+}
+.progress-bar {
+  height: 100%;
+  background: #3282be;
+  border-radius: 20px;
+  transition: width .25s ease;
+}
+
+.registration-step { border: 0; padding: 0; margin: 0 0 22px; }
+.registration-step legend {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.registration-step > label { margin-bottom: 16px; }
+
+.req { color: #b3261e; font-style: normal; font-size: 11px; }
+
+.consent-box {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1px solid #d5e0ea;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.consent-box:hover { background: #f7fbfe; }
+.consent-box input {
+  width: auto;
+  margin: 3px 0 0;
+  flex: none;
+  accent-color: #1d4277;
+}
+.consent-body {
+  font-size: 13px;
+  background: #f4f8fc;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 14px 0 0;
+}
+
+.question { margin-bottom: 20px; }
+.question-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 9px;
+}
+.options { display: flex; flex-direction: column; gap: 8px; }
+.option {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  border: 1px solid #d5e0ea;
+  border-radius: 10px;
+  padding: 12px 15px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.option:hover { background: #f7fbfe; }
+.option input { width: auto; margin: 0; flex: none; accent-color: #1d4277; }
+.option:has(input:checked) { border-color: #3282be; background: #eef6fc; }
+
+.registration-actions { display: flex; gap: 12px; margin-top: 8px; }
+.btn.ghost { background: #fff; color: #204577; border-color: #cbdced; }
+.btn.ghost:hover { background: #eaf3fb; }
+.btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+.registration-error {
+  font-size: 14px;
+  color: #7c2d12;
+  background: #fdf0e6;
+  border: 1px solid #f2c9a8;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 4px;
+}
+.registration-success {
+  font-size: 15px;
+  color: #17694a;
+  background: #e7f5ee;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+/* Honeypot and screen-reader-only text stay out of sight but in the page. */
+.hp {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 700px) {
+  .registration-actions { flex-direction: column-reverse; }
+  .registration-actions .btn { width: 100%; }
+}
+
+/* ===========================================================================
+ * NAVY PROFESSIONAL THEME
+ *
+ * A third layer over the two above. The earlier layers hardcode their colours,
+ * so this one restates the rules it changes rather than relying on the custom
+ * properties alone — the properties are redefined too, so anything not listed
+ * here still lands on the new palette.
+ *
+ * Palette: deep navy as the brand voice, one blue accent for anything you can
+ * click. Every foreground/background pair below was measured against WCAG:
+ * body text 14.6:1, muted text 7.2:1, accent links 5.9:1, hero text 12.5:1 —
+ * AA at minimum, AAA for everything read at length. A recruitment site is read
+ * by people who may be unwell, tired, or on a phone in bad light, so contrast
+ * is treated as a requirement rather than a preference.
+ * ========================================================================= */
+
+:root {
+  /* Brand navy */
+  --navy-900: #0b1220;
+  --navy-800: #0f172a;
+  --navy-700: #14284a;
+  --navy-600: #1e3a6a;
+
+  /* Text */
+  --slate-800: #1e293b;
+  --slate-600: #475569;
+  --slate-500: #64748b;
+
+  /* Accent — reserved for interactive things, never decoration */
+  --accent: #0369a1;
+  --accent-dark: #025685;
+  --accent-bright: #38bdf8;
+  --accent-tint: #e0f2fe;
+  --accent-ink: #0c4a6e;
+
+  /* Surfaces */
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-sunken: #eff4f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+
+  /* Feedback */
+  --danger: #b91c1c;
+  --danger-tint: #fef2f2;
+  --success: #15803d;
+  --success-tint: #f0fdf4;
+
+  /* One elevation scale, navy-tinted so shadows read as depth rather than
+   * grey smudge. Cards step up one level on hover, never more. */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 10px 28px rgba(15, 23, 42, 0.09);
+  --shadow-lg: 0 22px 52px rgba(15, 23, 42, 0.13);
+  --shadow-hero: 0 34px 80px rgba(11, 18, 32, 0.28);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --font-head: 'Figtree', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Aliases the two earlier layers already read from. */
+  --ink: var(--navy-800);
+  --teal: var(--accent);
+  --mint: var(--accent-tint);
+  --paper: var(--surface);
+  --muted: var(--slate-600);
+  --line: var(--border);
+}
+
+/* --------------------------------- type --------------------------------- */
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--slate-800);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .brand, .btn, .tab, .number, .eyebrow {
+  font-family: var(--font-head);
+}
+
+h1, h2 { color: var(--navy-800); font-weight: 600; letter-spacing: -1.4px; }
+h3 { color: var(--navy-800); font-weight: 600; letter-spacing: -0.3px; }
+p { color: var(--slate-600); }
+
+/* Limits the measure on long-form paragraphs — past ~75 characters the eye
+ * loses its place returning to the next line. */
+.hero p, .section-head p, .split p, .about p { max-width: 62ch; }
+
+.eyebrow {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 2.4px;
+}
+
+/* ------------------------------ focus states ----------------------------- */
+
+/* :focus-visible rather than :focus, so a mouse click does not leave a ring
+ * behind but keyboard users always see where they are. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--accent-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ------------------------------ top + nav -------------------------------- */
+
+.top {
+  background: var(--navy-800);
+  color: #cbd9ec;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  padding: 9px;
+}
+
+.nav {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.brand { color: var(--navy-800); font-weight: 700; }
+.brand small { color: var(--slate-600); }
+.mark {
+  background: linear-gradient(140deg, var(--navy-700), var(--accent));
+  box-shadow: var(--shadow-sm);
+}
+/* :not(.btn) because the Contact Us call to action lives inside .links, and a
+ * descendant selector would otherwise outrank .btn and paint its label the
+ * body colour — dark text on the dark navy button. */
+.links a:not(.btn) { color: var(--slate-800); font-weight: 500; transition: color 0.18s var(--ease); }
+.links a:not(.btn):hover { color: var(--accent); }
+
+/* -------------------------------- buttons -------------------------------- */
+
+.btn {
+  background: var(--navy-800);
+  border-color: var(--navy-800);
+  color: #fff;
+  font-family: var(--font-head);
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+.btn:hover { background: var(--navy-700); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+/* Press feedback returns the button to rest rather than moving it further, so
+ * the click reads as "pushed" and nothing around it shifts. */
+.btn:active { transform: translateY(0); box-shadow: var(--shadow-xs); }
+
+.btn.light {
+  background: var(--surface);
+  color: var(--navy-800);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-xs);
+}
+.btn.light:hover { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-dark); }
+
+.text-link { color: var(--accent); font-weight: 600; }
+.text-link:hover { color: var(--accent-dark); }
+
+/* --------------------------------- hero ---------------------------------- */
+
+/* The one place the navy is used at full strength. The radial highlight keeps
+ * a large dark panel from reading as flat. */
+.hero > .wrap {
+  background:
+    radial-gradient(120% 90% at 78% 8%, rgba(56, 189, 248, 0.22), transparent 58%),
+    linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 52%, var(--navy-600) 100%);
+  box-shadow: var(--shadow-hero);
+}
+.hero h1 { color: #fff; letter-spacing: -1.6px; }
+.hero p { color: #cbd9ec; }
+.hero .eyebrow { color: var(--accent-bright); }
+.hero-photo img { border: 8px solid rgba(255, 255, 255, 0.14); }
+
+.photo-note {
+  background: var(--surface);
+  color: var(--navy-800);
+  box-shadow: var(--shadow-lg);
+}
+.photo-note strong { color: var(--navy-800); }
+
+.hero .btn { background: var(--surface); color: var(--navy-800); border-color: var(--surface); }
+.hero .btn:hover { background: var(--accent-tint); }
+.hero .actions .btn:first-child span { background: var(--accent); color: #fff; }
+.hero .btn.light { background: transparent; border-color: rgba(255, 255, 255, 0.45); color: #fff; }
+.hero .btn.light:hover { background: rgba(255, 255, 255, 0.14); border-color: #fff; color: #fff; }
+
+.trust { color: #cbd9ec; border-top: 1px solid rgba(255, 255, 255, 0.22); }
+.trust span:before { color: var(--accent-bright); font-weight: 700; }
+
+.hero-wide img { box-shadow: var(--shadow-md); }
+
+/* ------------------------------ search panel ----------------------------- */
+
+.search {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+label { color: var(--navy-800); font-weight: 600; }
+input, select, textarea {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  color: var(--slate-800);
+  /* 16px stops iOS Safari zooming the page when a field takes focus. */
+  font-size: 16px;
+  /* 46px + padding clears the 44px minimum touch target. */
+  min-height: 46px;
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+input:hover, select:hover, textarea:hover { border-color: var(--slate-500); }
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.18);
+}
+/* slate-500 reads as 4.76:1 on white — lighter than entered text, as a
+ * placeholder should be, without dropping below AA. The same colour fails on
+ * the sunken surface, which is why the footer and notes use slate-600. */
+::placeholder { color: var(--slate-500); opacity: 1; }
+
+/* -------------------------------- cards ---------------------------------- */
+
+.trial-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.trial-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.tag {
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.process { background: var(--surface-sunken); }
+.steps { border-top: 1px solid var(--border-strong); }
+.steps article { border-right: 1px solid var(--border-strong); }
+/* Tabular figures keep the step numbers on the same optical baseline. */
+.number { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+.note { border-color: var(--border-strong); color: var(--slate-600); }
+
+.split img { box-shadow: var(--shadow-md); }
+
+.insights { background: var(--surface-sunken); }
+.tab {
+  border-color: var(--border-strong);
+  color: var(--slate-800);
+  font-weight: 600;
+  min-height: 44px;
+  transition: background 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+.tab:hover { border-color: var(--accent); color: var(--accent); }
+.tab[aria-selected='true'] { background: var(--navy-800); border-color: var(--navy-800); color: #fff; }
+
+.resource {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.resource:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
+details { border-bottom: 1px solid var(--border); }
+summary { color: var(--navy-800); font-weight: 600; padding: 4px 0; }
+summary:hover { color: var(--accent); }
+
+/* --------------------------------- about --------------------------------- */
+
+.about {
+  background:
+    radial-gradient(100% 120% at 88% 0%, rgba(56, 189, 248, 0.16), transparent 60%),
+    linear-gradient(140deg, var(--navy-800), var(--navy-600));
+  box-shadow: var(--shadow-lg);
+}
+/* h1/h2 are given an explicit navy above, which overrides what they would
+ * otherwise inherit — so every heading sitting on a dark panel has to be
+ * restated, or it lands navy-on-navy and disappears. */
+.about h2, .about h3 { color: #fff; }
+.about .eyebrow { color: var(--accent-bright); }
+.about p { color: #cbd9ec; }
+.about .btn { background: #fff; color: var(--navy-800); border-color: #fff; }
+.about .btn:hover { background: var(--accent-tint); }
+.about-word { color: #fff; border-color: rgba(255, 255, 255, 0.28); }
+.about-word small { color: #9fc4e8; }
+
+/* ------------------------------ contact + footer -------------------------- */
+
+.form-grid {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.status { color: var(--success); font-weight: 600; }
+
+footer { background: var(--surface-sunken); }
+.footer-links a:hover { color: var(--accent); }
+.bottom { border-color: var(--border-strong); color: var(--slate-600); }
+.legal { color: var(--slate-600); }
+.policy { color: var(--slate-600); }
+.policy:hover { color: var(--accent); }
+
+/* -------------------------------- dialogs -------------------------------- */
+
+dialog {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+/* A scrim dark enough to take the page behind out of play. */
+dialog::backdrop { background: rgba(11, 18, 32, 0.62); backdrop-filter: blur(3px); }
+dialog h2 { color: var(--navy-800); }
+.close {
+  background: var(--surface-sunken);
+  border-color: var(--border);
+  color: var(--navy-800);
+  /* The visible circle stays 34px; the tap area meets the 44px minimum. */
+  min-width: 44px;
+  min-height: 44px;
+  transition: background 0.18s var(--ease);
+}
+.close:hover { background: var(--accent-tint); color: var(--accent-dark); }
+
+/* ---------------------------- registration form --------------------------- */
+
+.progress-track { background: var(--border); }
+.progress-bar { background: linear-gradient(90deg, var(--accent), var(--accent-bright)); }
+.registration-step legend { color: var(--navy-800); }
+.req { color: var(--danger); }
+
+.consent-box, .option {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  transition: border-color 0.18s var(--ease), background 0.18s var(--ease);
+}
+.consent-box:hover, .option:hover { border-color: var(--accent); background: var(--accent-tint); }
+.consent-box input, .option input { accent-color: var(--accent); }
+.consent-body { color: var(--slate-600); }
+
+.btn.ghost { background: transparent; color: var(--navy-800); border-color: var(--border-strong); box-shadow: none; }
+.btn.ghost:hover { background: var(--surface-sunken); color: var(--navy-800); }
+/* Disabled reads as unavailable rather than merely pale, and takes no click. */
+.btn:disabled { opacity: 0.45; box-shadow: none; transform: none; cursor: not-allowed; }
+
+.registration-error { background: var(--danger-tint); color: var(--danger); border: 1px solid #fecaca; }
+.registration-success { background: var(--success-tint); color: var(--success); border: 1px solid #bbf7d0; }
+
+/* ------------------------------ reduced motion ---------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn:hover, .trial-card:hover, .resource:hover { transform: none; }
+}
+
+/* ------------------------------ touch targets ----------------------------- */
+
+/* Nav links measured 22px tall — fine for a mouse, too small for a thumb, and
+ * on a phone these are the whole menu. Vertical padding grows the hit area
+ * without moving the text, since the bar centres its contents. */
+.links a:not(.btn),
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 2px;
+}
+
+/* These two sit inline in running text, where padding would push the underline
+ * away from the word or break the footer line. An overlay pseudo-element
+ * extends the clickable area over the gap above and below instead, leaving the
+ * visible link exactly where it was. */
+.text-link, .policy { position: relative; }
+.text-link::after, .policy::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
+
+/* --------------------------- search results dialog ------------------------ */
+
+.results-dialog .eyebrow { margin-bottom: 12px; }
+.results-dialog h2 { font-size: clamp(28px, 3vw, 36px); margin-bottom: 14px; }
+.results-lede { font-size: 15px; margin-bottom: 20px; }
+
+/* The search restated as chips, so the result count is self-explanatory. */
+.result-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+.result-filters .tag { margin: 0; }
+
+.result-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  /* Long result sets scroll inside the dialog rather than pushing the closing
+   * note out of reach. */
+  max-height: min(48vh, 440px);
+  overflow-y: auto;
+}
+
+/* The whole row is the button: one large target, and no guessing about which
+ * part of the card is clickable. */
+.result {
+  display: flex;
+  gap: 18px;
+  align-items: stretch;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease),
+    transform 0.18s var(--ease);
+}
+.result:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.result-thumb { flex: 0 0 132px; display: block; }
+.result-thumb img,
+.result-thumb picture { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.result-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 18px 20px 18px 0;
+  min-width: 0;
+}
+.result-thumb + .result-copy { padding-left: 0; }
+.result:not(:has(.result-thumb)) .result-copy { padding-left: 20px; }
+
+.result-copy .tag { margin: 0; }
+.result-copy strong {
+  font-family: var(--font-head);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--navy-800);
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+.result-blurb {
+  font-size: 14px;
+  color: var(--slate-600);
+  line-height: 1.6;
+  /* Two lines keeps every row the same height so the list scans evenly. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.result-cta { font-size: 13px; font-weight: 600; color: var(--accent); margin-top: 2px; }
+.result:hover .result-cta { color: var(--accent-dark); }
+
+.results-empty {
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px;
+  margin-bottom: 8px;
+}
+.results-empty p { margin-bottom: 18px; font-size: 15px; }
+
+.results-dialog .note { margin: 20px 0 0; font-size: 12px; }
+
+@media (max-width: 700px) {
+  .result { flex-direction: column; gap: 0; }
+  .result-thumb { flex: none; height: 150px; width: 100%; }
+  .result-copy { padding: 16px 18px; }
+  .result:not(:has(.result-thumb)) .result-copy { padding-left: 18px; }
+  .result-list { max-height: 54vh; }
+}
+
+/* ------------------------- trial call to action --------------------------- */
+
+/* The card's way into a trial. It was a text link, which on a card full of
+ * prose reads as more prose — people did not see it as the thing to press. */
+.trial-cta { margin-top: 18px; }
+
+/* The same control inside a search result. It cannot be a real button, because
+ * the whole row is already one and nesting buttons is invalid, so this is the
+ * row's own affordance styled to look like what it is. */
+.result-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 10px 18px;
+  border-radius: 40px;
+  background: var(--navy-800);
+  color: #fff;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+  transition: background 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.result:hover .result-cta {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
