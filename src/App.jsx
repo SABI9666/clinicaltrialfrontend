@@ -64,10 +64,6 @@ export default function App() {
         Skip to content
       </a>
 
-      {site.settings?.bannerEnabled && site.settings?.banner && (
-        <div className="top">{site.settings.banner}</div>
-      )}
-
       <Header settings={site.settings} />
 
       <main id="main">
