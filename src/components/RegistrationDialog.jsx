@@ -33,6 +33,19 @@ export default function RegistrationDialog({ trial, centres = [], onClose }) {
     return ids.length > 0 ? centres.filter((c) => ids.includes(c.id)) : centres;
   }, [trial, centres]);
 
+  // Grouped by region (state) for the dropdown, in the order regions first
+  // appear. Centres without a region are listed after the groups.
+  const grouped = useMemo(() => {
+    const groups = new Map();
+    for (const c of offered) {
+      const region = c.region?.trim() ?? '';
+      if (!groups.has(region)) groups.set(region, []);
+      groups.get(region).push(c);
+    }
+    const named = [...groups].filter(([region]) => region);
+    return { named, other: groups.get('') ?? [] };
+  }, [offered]);
+
   const set = (key) => (e) => setPerson((p) => ({ ...p, [key]: e.target.value }));
 
   function reset() {
@@ -289,10 +302,18 @@ export default function RegistrationDialog({ trial, centres = [], onClose }) {
                           onChange={(e) => setCentreId(e.target.value)}
                         >
                           <option value="">Select a centre</option>
-                          {offered.map((c) => (
+                          {grouped.named.map(([region, list]) => (
+                            <optgroup key={region} label={region}>
+                              {list.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                  {c.name}
+                                </option>
+                              ))}
+                            </optgroup>
+                          ))}
+                          {grouped.other.map((c) => (
                             <option key={c.id} value={c.id}>
                               {c.name}
-                              {c.region ? ` — ${c.region}` : ''}
                             </option>
                           ))}
                         </select>
