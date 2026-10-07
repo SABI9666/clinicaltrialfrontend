@@ -41,6 +41,12 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
           {(contact?.paragraphs ?? []).map((text, i) => (
             <p key={i}>{text}</p>
           ))}
+          {contact?.generalEmail && (
+            <p className="contact-email">
+              <span>{contact.generalEmailLabel || 'General enquiries'}</span>
+              <a href={`mailto:${contact.generalEmail}`}>{contact.generalEmail}</a>
+            </p>
+          )}
           {contact?.note && <p className="note">{contact.note}</p>}
         </div>
 

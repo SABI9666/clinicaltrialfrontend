@@ -456,6 +456,29 @@ summary:hover { color: var(--accent); }
   box-shadow: var(--shadow-sm);
 }
 .status { color: var(--success); font-weight: 600; }
+.contact-email {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 26px 0 0;
+  padding: 16px 20px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface-sunken);
+  border-radius: 0 10px 10px 0;
+}
+.contact-email span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--slate-600);
+}
+.contact-email a {
+  color: var(--accent);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.contact-email a:hover { text-decoration: underline; }
 
 footer { background: var(--surface-sunken); }
 .footer-links a:hover { color: var(--accent); }

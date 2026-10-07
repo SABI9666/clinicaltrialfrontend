@@ -212,6 +212,8 @@ export const FALLBACK_SITE = {
       "Have a question about Clinical Trial Access or one of the clinical trials featured on our website? Get in touch with us using the form.",
       "If your enquiry relates to a particular clinical trial, please include the trial or condition name and your country/location so your enquiry can be directed appropriately."
     ],
+    "generalEmailLabel": "General enquiries",
+    "generalEmail": "info@southernstarresearch.com",
     "note": "Please do not use this form to provide detailed medical information or seek medical advice. For questions about your health or treatment, please speak with your doctor or healthcare professional.",
     "formNote": "Your enquiry is sent to the Clinical Trial Access team.",
     "submitLabel": "Send Enquiry ↗",
