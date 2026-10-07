@@ -5,7 +5,6 @@ export default function HeroWide({ heroWide }) {
   return (
     <figure className="hero-wide">
       <Image image={heroWide.image} />
-      {heroWide.caption && <figcaption>{heroWide.caption}</figcaption>}
     </figure>
   );
 }
