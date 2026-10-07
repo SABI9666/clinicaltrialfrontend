@@ -82,8 +82,7 @@ export const FALLBACK_SITE = {
       "src": "/media/hero-wide.jpg",
       "webp": "/media/hero-wide.webp",
       "alt": "Illustrative consultation between a clinical research coordinator and a participant"
-    },
-    "caption": "Supporting informed conversations about clinical trial participation."
+    }
   },
   "trialsSection": {
     "eyebrow": "Access a trial",
