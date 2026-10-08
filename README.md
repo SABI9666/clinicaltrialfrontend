@@ -31,8 +31,7 @@ npm install
 npm run dev          # http://localhost:5173
 ```
 
-With no `VITE_API_BASE_URL` set, the dev server proxies `/api` to
-`http://localhost:8080`, so running the API from the other repository gives a
+The dev server proxies `/api` to `http://localhost:8080` (or `VITE_DEV_API`), so running the API from the other repository gives a
 full local stack. Without it, the site renders from the bundled fallback.
 
 ```bash
@@ -49,12 +48,17 @@ Create a Vercel project from this repository:
 - **Framework preset:** Vite (detected automatically)
 - **Build command:** `npm run build`
 - **Output directory:** `dist`
-- **Environment variable:** `VITE_API_BASE_URL` = your Cloud Run URL,
-  e.g. `https://clinical-trial-api-xxxxxxxx-ts.a.run.app` (no trailing slash)
 
-After deploying, add the Vercel URL to the API's `CORS_ORIGINS` and redeploy
-the API, or the browser will block the content request and the site will fall
-back to the bundled snapshot.
+The site calls `/api` on its own address, and `vercel.json` forwards those
+requests to the Cloud Run service. If the service URL ever changes, update both
+rewrites in that file. Because the browser never calls the API directly, the
+site works on any domain attached to the Vercel project without adding it to
+the API's `CORS_ORIGINS`.
+
+One consequence: the API sees Vercel's addresses rather than each visitor's,
+so its per-address limits (20 enquiries and 10 registrations an hour) can end
+up shared between visitors. Fine while traffic is light; for a busy site,
+have the API take the visitor address from Vercel's forwarding header instead.
 
 `vercel.json` sets long-lived caching for hashed assets and a few standard
 security headers.
