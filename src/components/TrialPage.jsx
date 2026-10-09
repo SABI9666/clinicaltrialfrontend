@@ -3,6 +3,32 @@ import RegistrationDialog from './RegistrationDialog.jsx';
 import { Inline } from './RichText.jsx';
 import { parsePolicy } from '../lib/policyText.js';
 
+/** Photos placed beside the sections, in turn, so every section has one. */
+const SECTION_IMAGES = [
+  { src: '/media/hero-consult.jpg', webp: '/media/hero-consult.webp' },
+  { src: '/media/trial-diabetes.jpg', webp: '/media/trial-diabetes.webp' },
+  { src: '/media/why-join.jpg', webp: '/media/why-join.webp' },
+  { src: '/media/hero-wide.jpg', webp: '/media/hero-wide.webp' },
+];
+
+const GLANCE = /^at a glance$/i;
+
+/**
+ * An "## At a glance" section becomes highlight cards. Each "- " line is
+ * "Label | Value | Description", e.g. "Age range | 18–80 | Participants must
+ * be aged between 18 and 80 years."
+ */
+function highlightsFrom(section) {
+  return section.blocks
+    .filter((b) => b.type === 'ul')
+    .flatMap((b) => b.items)
+    .map((item) => {
+      const [label = '', value = '', ...rest] = item.split('|').map((part) => part.trim());
+      return { label, value, description: rest.join(' | ') };
+    })
+    .filter((h) => h.label && h.value);
+}
+
 /**
  * The trial's details as sections. Each detail paragraph written in the admin
  * that starts with "## Heading" becomes its own section; paragraphs without a
@@ -86,7 +112,9 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
   }
 
   const detail = trial.detail ?? {};
-  const sections = sectionsFrom(detail.paragraphs);
+  const allSections = sectionsFrom(detail.paragraphs);
+  const sections = allSections.filter((sec) => !GLANCE.test(sec.title));
+  const highlights = allSections.filter((sec) => GLANCE.test(sec.title)).flatMap(highlightsFrom);
   const facts = factsFrom(trial);
   const registers = trial.registration?.enabled !== false && trial.slug;
 
@@ -105,22 +133,13 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
             {(trial.summary ?? []).map((text, i) => (
               <p key={i}>{text}</p>
             ))}
-            <div className="actions">
-              {registers ? (
-                // Scrolls rather than links, so the address keeps naming this trial.
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Register your interest ↓
-                </button>
-              ) : (
+            {!registers && (
+              <div className="actions">
                 <button type="button" className="btn" onClick={() => onEnquire(trial)}>
                   {detail.ctaLabel || 'Enquire about this trial ↗'}
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
           {trial.image?.src && (
             <div className="trial-hero-media">
@@ -140,29 +159,47 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
           </dl>
         )}
 
-        {sections.map((section, i) => (
-          <section className="trial-section" key={section.title + i} aria-labelledby={`trial-section-${i}`}>
-            <div className="trial-section-head">
-              <span className="trial-section-number">{String(i + 1).padStart(2, '0')}</span>
-              <h2 id={`trial-section-${i}`}>
-                <Inline text={section.title} />
-              </h2>
-            </div>
-            <div className="trial-section-body">
-              <Blocks blocks={section.blocks} />
-            </div>
-          </section>
-        ))}
+        {/* The form comes first: register in three steps, then read on. */}
+        {registers && <RegistrationDialog key={trial.slug} trial={trial} centres={centres} inline />}
+
+        {sections.length > 0 && (
+          <div className="trial-sections">
+            {sections.map((section, i) => (
+              <section className="trial-section" key={section.title + i} aria-labelledby={`trial-section-${i}`}>
+                <div className="trial-section-media">
+                  <Image image={{ ...SECTION_IMAGES[i % SECTION_IMAGES.length], alt: '' }} />
+                </div>
+                <div className="trial-section-body">
+                  <h2 id={`trial-section-${i}`}>
+                    <Inline text={section.title} />
+                  </h2>
+                  <Blocks blocks={section.blocks} />
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
+
+        {highlights.length > 0 && (
+          <div className="trial-highlights">
+            {highlights.map((h, i) => (
+              <article className="trial-highlight" key={h.label}>
+                <h3>{h.label}</h3>
+                <div className="trial-highlight-media">
+                  <Image image={{ ...SECTION_IMAGES[(i + 1) % SECTION_IMAGES.length], alt: '' }} />
+                  <span className="trial-highlight-value">{h.value}</span>
+                </div>
+                {h.description && <p>{h.description}</p>}
+              </article>
+            ))}
+          </div>
+        )}
 
         {detail.note && (
           <aside className="trial-note">
             <strong>Please note</strong>
             <p>{detail.note}</p>
           </aside>
-        )}
-
-        {registers && (
-          <RegistrationDialog key={trial.slug} trial={trial} centres={centres} inline />
         )}
       </div>
     </section>
