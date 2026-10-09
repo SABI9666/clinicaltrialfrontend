@@ -133,7 +133,12 @@ export default function App() {
 
       <main id="main">
         {search === null ? (
-          <TrialsSection section={site.trialsSection} facets={site.facets} onSearch={onSearch} />
+          <TrialsSection
+            section={site.trialsSection}
+            facets={site.facets}
+            trust={site.hero?.trust ?? []}
+            onSearch={onSearch}
+          />
         ) : (
           <>
             <TrialResults
