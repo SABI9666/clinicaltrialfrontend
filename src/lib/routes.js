@@ -9,7 +9,6 @@ const PAGES = {
   '#home': 'home',
   '#trials': 'home',
   '#search': 'home',
-  '#current-trials': 'home',
   '#results': 'results',
   '#journey': 'results',
   '#why': 'why',
