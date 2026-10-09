@@ -3,7 +3,7 @@ import Brand from './Brand.jsx';
 import { pageFor } from '../lib/routes.js';
 
 /** Pages reached from a menu item, rather than listed in it, mark that item. */
-const MENU_PAGE = { results: 'home', report: 'insights' };
+const MENU_PAGE = { results: 'home', trial: 'home', report: 'insights' };
 
 export default function Header({ settings, page }) {
   const menuPage = MENU_PAGE[page] ?? page;

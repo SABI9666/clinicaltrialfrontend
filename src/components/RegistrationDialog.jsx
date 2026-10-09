@@ -15,7 +15,11 @@ const STEPS = ['Consent', 'Your details', 'About you'];
 
 const BLANK = { firstName: '', lastName: '', email: '', phone: '', company: '' };
 
-export default function RegistrationDialog({ trial, centres = [], onClose }) {
+/**
+ * `inline` renders the form in the page (the trial page) instead of a dialog;
+ * finishing there resets it rather than closing anything.
+ */
+export default function RegistrationDialog({ trial, centres = [], onClose, inline = false }) {
   const [step, setStep] = useState(0);
   const [consent, setConsent] = useState(false);
   const [person, setPerson] = useState(BLANK);
@@ -93,11 +97,9 @@ export default function RegistrationDialog({ trial, centres = [], onClose }) {
 
   const percent = Math.round(((step + 1) / STEPS.length) * 100);
 
-  return (
-    <Dialog open={Boolean(trial)} onClose={close} labelledBy="registration-title">
-      {trial && (
+  const content = trial && (
         <div className="registration">
-          <h2 id="registration-title">Registration Form</h2>
+          <h2 id="registration-title">{inline ? 'Register your interest' : 'Registration Form'}</h2>
 
           {state === 'sent' ? (
             <>
@@ -105,8 +107,8 @@ export default function RegistrationDialog({ trial, centres = [], onClose }) {
                 {reg.successMessage ||
                   'Thank you — your registration has been sent to the study team at the centre you chose.'}
               </p>
-              <button type="button" className="btn" onClick={close}>
-                Close
+              <button type="button" className="btn" onClick={inline ? reset : close}>
+                {inline ? 'Start another registration' : 'Close'}
               </button>
             </>
           ) : (
@@ -347,7 +349,19 @@ export default function RegistrationDialog({ trial, centres = [], onClose }) {
             </>
           )}
         </div>
-      )}
+  );
+
+  if (inline) {
+    return (
+      <div className="registration-panel" id="register">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <Dialog open={Boolean(trial)} onClose={close} labelledBy="registration-title">
+      {content}
     </Dialog>
   );
 }

@@ -17,6 +17,11 @@ const PAGES = {
   '#contact': 'contact',
 };
 
+/** The trial a #trial-<slug> hash names, or null. */
+export function trialSlugFor(hash) {
+  return hash.startsWith('#trial-') ? decodeURIComponent(hash.slice('#trial-'.length)) : null;
+}
+
 /** The report a #report-<id> hash names, or null. */
 export function reportIdFor(hash) {
   return hash.startsWith('#report-') ? decodeURIComponent(hash.slice('#report-'.length)) : null;
@@ -28,7 +33,7 @@ export function reportIdFor(hash) {
  */
 export function pageFor(hash) {
   if (hash in PAGES) return PAGES[hash];
-  if (hash.startsWith('#trial-')) return 'results';
+  if (hash.startsWith('#trial-')) return 'trial';
   if (hash.startsWith('#report-')) return 'report';
   return null;
 }
