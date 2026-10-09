@@ -640,8 +640,9 @@ dialog h2 { color: var(--navy-800); }
   display: flex;
   align-items: center;
   margin: 18px 28px 0;
-  min-height: calc(100vh - 90px - 18px);
-  min-height: calc(100svh - 90px - 18px);
+  /* Most of the first screen, leaving the trials below just in reach. */
+  min-height: min(calc(100vh - 90px - 18px), 820px);
+  min-height: min(calc(100svh - 90px - 18px), 820px);
   padding: 72px 0 56px;
   border-radius: 36px;
   color: #fff;
@@ -807,3 +808,50 @@ dialog h2 { color: var(--navy-800); }
 @media (prefers-reduced-motion: reduce) {
   .links a:not(.btn)::after { transition: none; }
 }
+
+/* ---------------------------- current trials ------------------------------ */
+
+.current-trials { padding: 72px 0 40px; }
+.current-trials .section-head { align-items: end; }
+.current-trials h2 { margin-bottom: 0; }
+
+.trial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+.trial-tile {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.trial-tile:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+.trial-tile-media { aspect-ratio: 16 / 9; overflow: hidden; background: var(--surface-sunken); }
+.trial-tile-media img,
+.trial-tile-media picture { display: block; width: 100%; height: 100%; object-fit: cover; }
+.trial-tile-body { display: flex; flex: 1; flex-direction: column; gap: 10px; padding: 24px 26px 26px; }
+.trial-tile-body .tag { align-self: flex-start; margin: 0; }
+.trial-tile-body h3 { margin: 4px 0 0; font-size: 22px; }
+.trial-tile-body p { margin: 0; font-size: 15px; }
+.trial-tile-body .btn { align-self: flex-start; margin-top: auto; }
+.trial-tile-body p + .btn { margin-top: 12px; }
+
+/* The page you are on, marked in the menu. */
+.links a:not(.btn)[aria-current='page'] { color: var(--accent); }
+.links a:not(.btn)[aria-current='page']::after { transform: scaleX(1); }
+
+/* Pages that open on a plain section need room under the menu. */
+main > section:first-child:not(.landing):not(.results-page) { margin-top: 18px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .trial-tile, .trial-tile:hover { transition: none; transform: none; }
+}
+
+/* Coloured panels that end a page keep clear of the footer. */
+main > section:last-child.about,
+main > section:last-child.insights { margin-bottom: 48px; }

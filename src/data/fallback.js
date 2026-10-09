@@ -19,6 +19,18 @@ export const FALLBACK_SITE = {
       {
         "label": "Access a Trial",
         "href": "#trials"
+      },
+      {
+        "label": "Why Join",
+        "href": "#why"
+      },
+      {
+        "label": "Insights",
+        "href": "#insights"
+      },
+      {
+        "label": "About Us",
+        "href": "#about"
       }
     ],
     "navCta": {
