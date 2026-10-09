@@ -1,9 +1,6 @@
 import TrialSearch from './TrialSearch.jsx';
 
-/**
- * The landing page: the trial search and nothing else. Everything else on the
- * site opens once someone searches.
- */
+/** The top of the home page: the trial search, presented as the page's hero. */
 export default function TrialsSection({ section, facets, trust = [], onSearch }) {
   return (
     <section id="trials" className="landing">

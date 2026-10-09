@@ -3,6 +3,7 @@ import { useSite } from './lib/useSite.js';
 import Header from './components/Header.jsx';
 import TrialsSection from './components/TrialsSection.jsx';
 import TrialResults from './components/TrialResults.jsx';
+import CurrentTrials from './components/CurrentTrials.jsx';
 import TrialDialog from './components/TrialDialog.jsx';
 import RegistrationDialog from './components/RegistrationDialog.jsx';
 import Journey from './components/Journey.jsx';
@@ -13,13 +14,7 @@ import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import PolicyDialog from './components/PolicyDialog.jsx';
 import { EMPTY_FILTERS, matches } from './lib/trials.js';
-
-/**
- * Anchors that live on the landing page. Every other in-page link (Why Join,
- * Insights, About, Contact…) points into the full page, so following one
- * opens it.
- */
-const LANDING_ANCHORS = new Set(['', '#', '#home', '#trials', '#search']);
+import { pageFor } from './lib/routes.js';
 
 export default function App() {
   const { site } = useSite();
@@ -31,66 +26,57 @@ export default function App() {
   const [enquiryTrialSlug, setEnquiryTrialSlug] = useState('');
   const enquiryRef = useRef(null);
 
-  /*
-   * Two views. The landing page is the menu and the trial search alone; the
-   * full page (results, then everything else) opens when someone searches or
-   * follows a menu link into it. `search` holds the last search, or null while
-   * the landing page is showing.
-   */
-  const [search, setSearch] = useState(null);
-  const scrollTarget = useRef(null);
+  const [page, setPage] = useState(() => pageFor(window.location.hash) ?? 'home');
+  // The last search; the results page shows every trial until one is run.
+  const [search, setSearch] = useState(EMPTY_FILTERS);
+  // Set when the enquiry form needs filling once the Contact page renders.
+  const pendingPrefill = useRef(null);
 
-  const openFullPage = useCallback((filters, target = null) => {
-    scrollTarget.current = target;
-    setSearch(filters);
-  }, []);
-
-  // Menu, footer and in-text links are plain hash links; route them here.
   useEffect(() => {
     const route = () => {
-      const hash = window.location.hash;
-      if (LANDING_ANCHORS.has(hash)) {
-        scrollTarget.current = null;
-        setSearch(null);
-        return;
-      }
-      // Opening the full page scrolls to the section once it renders; if it is
-      // already open the browser has scrolled there itself.
-      setSearch((current) => {
-        if (current !== null) return current;
-        scrollTarget.current = hash;
-        return EMPTY_FILTERS;
-      });
+      const next = pageFor(window.location.hash);
+      if (next) setPage(next);
     };
-    route();
     window.addEventListener('hashchange', route);
     return () => window.removeEventListener('hashchange', route);
   }, []);
 
-  // After the view changes, land at the top or on the section that was asked for.
+  // A new page starts at the top, or at the section its link named.
   useLayoutEffect(() => {
-    const target = scrollTarget.current;
-    scrollTarget.current = null;
-    const el = target && document.querySelector(target);
-    if (el) el.scrollIntoView();
+    const hash = window.location.hash;
+    const target = hash.length > 1 && pageFor(hash) === page ? document.querySelector(hash) : null;
+    const isPageRoot = target && target.closest('main > section:first-child') === target;
+    if (target && !isPageRoot) target.scrollIntoView();
     else window.scrollTo(0, 0);
-  }, [search]);
 
-  const onSearch = useCallback((filters) => {
-    openFullPage(filters);
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    const field = enquiryRef.current;
+    if (page === 'contact' && field && pendingPrefill.current !== null) {
+      // The textarea is controlled by React, so set the value through the
+      // native setter and dispatch input for React to pick the change up.
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value').set;
+      setter.call(field, pendingPrefill.current);
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      pendingPrefill.current = null;
     }
-  }, [openFullPage]);
+  }, [page]);
 
-  const onNewSearch = useCallback(() => {
-    window.history.replaceState(null, '', window.location.pathname + window.location.search);
-    setSearch(null);
+  const go = useCallback((hash) => {
+    if (window.location.hash === hash) setPage(pageFor(hash) ?? 'home');
+    else window.location.hash = hash;
   }, []);
+
+  const onSearch = useCallback(
+    (filters) => {
+      setSearch(filters);
+      go('#results');
+      if (window.location.hash === '#results') window.scrollTo(0, 0);
+    },
+    [go],
+  );
 
   /**
    * The trial dialog's button. Trials that use the registration form open it;
-   * the rest fall back to prefilling the ordinary enquiry form below.
+   * the rest open the Contact page with the enquiry form prefilled.
    */
   const onEnquire = useCallback((trial) => {
     setOpenTrial(null);
@@ -101,25 +87,9 @@ export default function App() {
     }
 
     setEnquiryTrialSlug(trial.slug ?? '');
-
-    const prefill = trial.detail?.enquiryPrefill;
-    const field = enquiryRef.current;
-    if (field) {
-      if (prefill) {
-        // The textarea is controlled by React, so set the value through the
-        // native setter and dispatch input for React to pick the change up.
-        const setter = Object.getOwnPropertyDescriptor(
-          window.HTMLTextAreaElement.prototype,
-          'value',
-        ).set;
-        setter.call(field, prefill);
-        field.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-      window.location.hash = 'contact';
-      field.focus({ preventScroll: true });
-      field.scrollIntoView({ block: 'center' });
-    }
-  }, []);
+    pendingPrefill.current = trial.detail?.enquiryPrefill || null;
+    go('#contact');
+  }, [go]);
 
   const onShowFaqs = useCallback(() => setInsightsTab('faqs'), []);
 
@@ -129,17 +99,22 @@ export default function App() {
         Skip to content
       </a>
 
-      <Header settings={site.settings} />
+      <Header settings={site.settings} page={page} />
 
       <main id="main">
-        {search === null ? (
-          <TrialsSection
-            section={site.trialsSection}
-            facets={site.facets}
-            trust={site.hero?.trust ?? []}
-            onSearch={onSearch}
-          />
-        ) : (
+        {page === 'home' && (
+          <>
+            <TrialsSection
+              section={site.trialsSection}
+              facets={site.facets}
+              trust={site.hero?.trust ?? []}
+              onSearch={onSearch}
+            />
+            <CurrentTrials trials={site.trials ?? []} onLearnMore={setOpenTrial} />
+          </>
+        )}
+
+        {page === 'results' && (
           <>
             <TrialResults
               section={site.trialsSection}
@@ -148,25 +123,30 @@ export default function App() {
               results={(site.trials ?? []).filter((t) => matches(t, search))}
               onSearch={onSearch}
               onReset={() => onSearch(EMPTY_FILTERS)}
-              onNewSearch={onNewSearch}
+              onNewSearch={() => go('#trials')}
               onLearnMore={setOpenTrial}
             />
-
             <Journey journey={site.journey} />
-            <WhyJoin why={site.why} />
-
-            <Insights
-              insights={site.insights}
-              reports={site.reports ?? []}
-              faqs={site.faqs ?? []}
-              news={site.news ?? []}
-              activeTab={insightsTab}
-              onTabChange={setInsightsTab}
-            />
-
-            <About about={site.about} />
-            <Contact ref={enquiryRef} contact={site.contact} trialSlug={enquiryTrialSlug} />
           </>
+        )}
+
+        {page === 'why' && <WhyJoin why={site.why} />}
+
+        {page === 'insights' && (
+          <Insights
+            insights={site.insights}
+            reports={site.reports ?? []}
+            faqs={site.faqs ?? []}
+            news={site.news ?? []}
+            activeTab={insightsTab}
+            onTabChange={setInsightsTab}
+          />
+        )}
+
+        {page === 'about' && <About about={site.about} />}
+
+        {page === 'contact' && (
+          <Contact ref={enquiryRef} contact={site.contact} trialSlug={enquiryTrialSlug} />
         )}
       </main>
 
