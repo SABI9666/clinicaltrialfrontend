@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import Image from './Image.jsx';
 import SearchResultsDialog from './SearchResultsDialog.jsx';
 
 const ANY = '';
@@ -32,7 +31,7 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
     return country?.states ?? [];
   }, [facets, filters.country]);
 
-  // Only filter once the user searches, so the page first shows everything.
+  // The page shows only the search; trials appear in the results dialog.
   const visible = submitted ? trials.filter((t) => matches(t, submitted)) : trials;
 
   const set = (key) => (e) => {
@@ -48,15 +47,14 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
   const onSubmit = (e) => {
     e.preventDefault();
     setSubmitted(filters);
-    // The results render below the fold, so a search that only updated them
-    // looked like a button that did nothing. Answer in the viewport instead.
     setShowResults(true);
   };
 
+  // Clearing from an empty result shows every trial, still in the dialog.
   const onReset = () => {
-    setFilters({ condition: ANY, country: ANY, state: ANY, age: ANY });
-    setSubmitted(null);
-    setShowResults(false);
+    const cleared = { condition: ANY, country: ANY, state: ANY, age: ANY };
+    setFilters(cleared);
+    setSubmitted(cleared);
   };
 
   /* Closes the results before opening the trial, so only one dialog is ever
@@ -65,12 +63,6 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
     setShowResults(false);
     onLearnMore(trial);
   };
-
-  const resultText = !submitted
-    ? `${trials.length} trial${trials.length === 1 ? '' : 's'} listed`
-    : visible.length > 0
-      ? `${visible.length} matching trial${visible.length === 1 ? '' : 's'}. Location and age eligibility are confirmed by the research team.`
-      : 'No trials match your search.';
 
   return (
     <section id="trials">
@@ -133,27 +125,6 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
         </form>
 
         {section?.disclaimer && <p className="small">{section.disclaimer}</p>}
-        <p id="results" role="status" className="small">
-          {resultText}
-        </p>
-
-        {visible.map((trial) => (
-          <article className="trial-card" key={trial.id ?? trial.slug} id={`trial-${trial.slug}`}>
-            <Image image={trial.image} />
-            <div className="trial-copy">
-              {trial.tag && <span className="tag">{trial.tag}</span>}
-              <h3>{trial.title}</h3>
-              {(trial.summary ?? []).map((text, i) => (
-                <p key={i}>{text}</p>
-              ))}
-              {/* A button, not a text link: this is the only way into a trial from
-                  the card, and underlined blue text reads as body copy. */}
-              <button className="btn trial-cta" onClick={() => onLearnMore(trial)}>
-                {trial.learnMoreLabel ?? 'Learn more about this trial ↗'}
-              </button>
-            </div>
-          </article>
-        ))}
 
         <SearchResultsDialog
           open={showResults}
@@ -164,16 +135,6 @@ export default function TrialsSection({ section, facets, trials, onLearnMore }) 
           onViewTrial={onViewTrial}
           onReset={onReset}
         />
-
-        {visible.length === 0 && (
-          <div className="resource">
-            <h3>{section?.emptyTitle ?? 'No matching trials'}</h3>
-            <p>{section?.emptyBody}</p>
-            <button className="text-link" onClick={onReset}>
-              {section?.resetLabel ?? 'Reset filters'}
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );

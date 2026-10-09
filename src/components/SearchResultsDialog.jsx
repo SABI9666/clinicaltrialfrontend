@@ -2,13 +2,8 @@ import Dialog from './Dialog.jsx';
 import Image from './Image.jsx';
 
 /**
- * What a search returns, shown where the person is looking.
- *
- * The search form sits near the top of the page and its results render below
- * the fold, so pressing Search changed nothing in view and read as a dead
- * button. This puts the answer in front of them instead. The list underneath
- * stays filtered to the same search, so closing this leaves the page showing
- * what was found rather than resetting the work.
+ * What a search returns. The home page shows only the search form; trials are
+ * listed here, in front of the person, once they press Search.
  */
 
 /** The search as a sentence, so the result set is self-explanatory. */
@@ -34,7 +29,7 @@ export default function SearchResultsDialog({
         <span className="eyebrow">Search results</span>
         <h2 id="search-results-title">
           {count === 0
-            ? 'No matching trials'
+            ? (section?.emptyTitle ?? 'No matching trials')
             : `${count} matching trial${count === 1 ? '' : 's'}`}
         </h2>
 
