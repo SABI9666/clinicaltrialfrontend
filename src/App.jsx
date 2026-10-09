@@ -67,13 +67,20 @@ export default function App() {
     else window.location.hash = hash;
   }, []);
 
+  /*
+   * A search that finds exactly one trial goes straight to that trial's page,
+   * where the registration form and its details are; otherwise it lists the
+   * matches. "Back to results" on the trial page still shows the list.
+   */
   const onSearch = useCallback(
     (filters) => {
       setSearch(filters);
-      go('#results');
-      if (window.location.hash === '#results') window.scrollTo(0, 0);
+      const found = (site.trials ?? []).filter((t) => matches(t, filters));
+      const target = found.length === 1 && found[0].slug ? `#trial-${found[0].slug}` : '#results';
+      go(target);
+      if (window.location.hash === target) window.scrollTo(0, 0);
     },
-    [go],
+    [go, site.trials],
   );
 
   /** A trial without the registration form is enquired about from the Contact page. */
