@@ -585,11 +585,7 @@ dialog h2 { color: var(--navy-800); }
   transform: translateY(-50%);
 }
 
-/* --------------------------- search results dialog ------------------------ */
-
-.results-dialog .eyebrow { margin-bottom: 12px; }
-.results-dialog h2 { font-size: clamp(28px, 3vw, 36px); margin-bottom: 14px; }
-.results-lede { font-size: 15px; margin-bottom: 20px; }
+/* ------------------------------ results page ------------------------------ */
 
 /* The search restated as chips, so the result count is self-explanatory. */
 .result-filters {
@@ -602,123 +598,42 @@ dialog h2 { color: var(--navy-800); }
 }
 .result-filters .tag { margin: 0; }
 
-.result-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  /* Long result sets scroll inside the dialog rather than pushing the closing
-   * note out of reach. */
-  max-height: min(48vh, 440px);
-  overflow-y: auto;
-}
-
-/* The whole row is the button: one large target, and no guessing about which
- * part of the card is clickable. */
-.result {
-  display: flex;
-  gap: 18px;
-  align-items: stretch;
-  width: 100%;
-  text-align: left;
-  padding: 0;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  overflow: hidden;
-  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease),
-    transform 0.18s var(--ease);
-}
-.result:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.result-thumb { flex: 0 0 132px; display: block; }
-.result-thumb img,
-.result-thumb picture { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-.result-copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 7px;
-  padding: 18px 20px 18px 0;
-  min-width: 0;
-}
-.result-thumb + .result-copy { padding-left: 0; }
-.result:not(:has(.result-thumb)) .result-copy { padding-left: 20px; }
-
-.result-copy .tag { margin: 0; }
-.result-copy strong {
-  font-family: var(--font-head);
-  font-size: 19px;
-  font-weight: 600;
-  color: var(--navy-800);
-  letter-spacing: -0.3px;
-  line-height: 1.3;
-}
-.result-blurb {
-  font-size: 14px;
-  color: var(--slate-600);
-  line-height: 1.6;
-  /* Two lines keeps every row the same height so the list scans evenly. */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.result-cta { font-size: 13px; font-weight: 600; color: var(--accent); margin-top: 2px; }
-.result:hover .result-cta { color: var(--accent-dark); }
-
-.results-empty {
-  background: var(--surface-sunken);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 26px;
-  margin-bottom: 8px;
-}
-.results-empty p { margin-bottom: 18px; font-size: 15px; }
-
-.results-dialog .note { margin: 20px 0 0; font-size: 12px; }
-
-@media (max-width: 700px) {
-  .result { flex-direction: column; gap: 0; }
-  .result-thumb { flex: none; height: 150px; width: 100%; }
-  .result-copy { padding: 16px 18px; }
-  .result:not(:has(.result-thumb)) .result-copy { padding-left: 18px; }
-  .result-list { max-height: 54vh; }
-}
-
 /* ------------------------- trial call to action --------------------------- */
 
 /* The card's way into a trial. It was a text link, which on a card full of
  * prose reads as more prose — people did not see it as the thing to press. */
 .trial-cta { margin-top: 18px; }
 
-/* The same control inside a search result. It cannot be a real button, because
- * the whole row is already one and nesting buttons is invalid, so this is the
- * row's own affordance styled to look like what it is. */
-.result-cta {
+/* -------------------------- landing and full page ------------------------- */
+
+/* The landing page is the search alone, so it fills the screen under the
+ * menu instead of sitting at the top of an empty page. */
+.landing {
+  min-height: calc(100vh - 90px);
+  min-height: calc(100svh - 90px);
+  display: flex;
+  align-items: center;
+  padding: 64px 0;
+}
+.landing > .wrap { width: 100%; }
+.landing h1,
+.results-page h1 { font-size: clamp(36px, 4.4vw, 60px); margin-bottom: 18px; }
+
+.results-page { padding-top: 48px; }
+.results-page .section-head { margin-bottom: 24px; }
+.results-page .result-filters { margin: 4px 0 0; }
+
+.back-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 4px;
-  padding: 10px 18px;
-  border-radius: 40px;
-  background: var(--navy-800);
-  color: #fff;
-  font-family: var(--font-head);
-  font-size: 13px;
+  margin-bottom: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
   font-weight: 600;
-  box-shadow: var(--shadow-xs);
-  transition: background 0.18s var(--ease), box-shadow 0.18s var(--ease);
+  font-size: 14px;
 }
-.result:hover .result-cta {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: var(--shadow-sm);
-}
+.back-link:hover { text-decoration: underline; }
+
+.trial-list { display: grid; gap: 24px; margin: 8px 0 22px; }
