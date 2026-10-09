@@ -60,7 +60,7 @@ export default function TrialResults({
         {count > 0 ? (
           <div className="trial-list">
             {results.map((trial) => (
-              <article className="trial-card" key={trial.id ?? trial.slug} id={`trial-${trial.slug}`}>
+              <article className="trial-card" key={trial.id ?? trial.slug}>
                 <Image image={trial.image} />
                 <div className="trial-copy">
                   {trial.tag && <span className="tag">{trial.tag}</span>}

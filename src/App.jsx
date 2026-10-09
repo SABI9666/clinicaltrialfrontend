@@ -3,8 +3,6 @@ import { useSite } from './lib/useSite.js';
 import Header from './components/Header.jsx';
 import TrialsSection from './components/TrialsSection.jsx';
 import TrialResults from './components/TrialResults.jsx';
-import TrialDialog from './components/TrialDialog.jsx';
-import RegistrationDialog from './components/RegistrationDialog.jsx';
 import Journey from './components/Journey.jsx';
 import WhyJoin from './components/WhyJoin.jsx';
 import Insights from './components/Insights.jsx';
@@ -13,14 +11,13 @@ import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import PolicyDialog from './components/PolicyDialog.jsx';
 import { EMPTY_FILTERS, matches } from './lib/trials.js';
-import { pageFor, reportIdFor } from './lib/routes.js';
+import { pageFor, reportIdFor, trialSlugFor } from './lib/routes.js';
+import TrialPage from './components/TrialPage.jsx';
 import ReportPage from './components/ReportPage.jsx';
 
 export default function App() {
   const { site, source, error } = useSite();
 
-  const [openTrial, setOpenTrial] = useState(null);
-  const [registerTrial, setRegisterTrial] = useState(null);
   const [openPolicy, setOpenPolicy] = useState(null);
   const [insightsTab, setInsightsTab] = useState('reports');
   const [enquiryTrialSlug, setEnquiryTrialSlug] = useState('');
@@ -28,6 +25,7 @@ export default function App() {
 
   const [page, setPage] = useState(() => pageFor(window.location.hash) ?? 'home');
   const [reportId, setReportId] = useState(() => reportIdFor(window.location.hash));
+  const [trialSlug, setTrialSlug] = useState(() => trialSlugFor(window.location.hash));
   // The last search; the results page shows every trial until one is run.
   const [search, setSearch] = useState(EMPTY_FILTERS);
   // Set when the enquiry form needs filling once the Contact page renders.
@@ -36,8 +34,10 @@ export default function App() {
   useEffect(() => {
     const route = () => {
       const next = pageFor(window.location.hash);
-      if (next) setPage(next);
+      if (!next) return;
+      setPage(next);
       setReportId(reportIdFor(window.location.hash));
+      setTrialSlug(trialSlugFor(window.location.hash));
     };
     window.addEventListener('hashchange', route);
     return () => window.removeEventListener('hashchange', route);
@@ -60,7 +60,7 @@ export default function App() {
       field.dispatchEvent(new Event('input', { bubbles: true }));
       pendingPrefill.current = null;
     }
-  }, [page, reportId]);
+  }, [page, reportId, trialSlug]);
 
   const go = useCallback((hash) => {
     if (window.location.hash === hash) setPage(pageFor(hash) ?? 'home');
@@ -76,22 +76,17 @@ export default function App() {
     [go],
   );
 
-  /**
-   * The trial dialog's button. Trials that use the registration form open it;
-   * the rest open the Contact page with the enquiry form prefilled.
-   */
-  const onEnquire = useCallback((trial) => {
-    setOpenTrial(null);
+  /** A trial without the registration form is enquired about from the Contact page. */
+  const onEnquire = useCallback(
+    (trial) => {
+      setEnquiryTrialSlug(trial.slug ?? '');
+      pendingPrefill.current = trial.detail?.enquiryPrefill || null;
+      go('#contact');
+    },
+    [go],
+  );
 
-    if (trial.registration?.enabled !== false && trial.slug) {
-      setRegisterTrial(trial);
-      return;
-    }
-
-    setEnquiryTrialSlug(trial.slug ?? '');
-    pendingPrefill.current = trial.detail?.enquiryPrefill || null;
-    go('#contact');
-  }, [go]);
+  const openTrial = useCallback((trial) => go(`#trial-${trial.slug}`), [go]);
 
   const onShowFaqs = useCallback(() => setInsightsTab('faqs'), []);
 
@@ -123,7 +118,7 @@ export default function App() {
               onSearch={onSearch}
               onReset={() => onSearch(EMPTY_FILTERS)}
               onNewSearch={() => go('#trials')}
-              onLearnMore={setOpenTrial}
+              onLearnMore={openTrial}
             />
             <Journey journey={site.journey} />
           </>
@@ -139,6 +134,15 @@ export default function App() {
             news={site.news ?? []}
             activeTab={insightsTab}
             onTabChange={setInsightsTab}
+          />
+        )}
+
+        {page === 'trial' && (
+          <TrialPage
+            trial={(site.trials ?? []).find((t) => t.slug === trialSlug)}
+            centres={site.centres ?? []}
+            loading={source === 'fallback' && !error}
+            onEnquire={onEnquire}
           />
         )}
 
@@ -165,13 +169,6 @@ export default function App() {
         onShowFaqs={onShowFaqs}
       />
 
-      <TrialDialog trial={openTrial} onClose={() => setOpenTrial(null)} onEnquire={onEnquire} />
-
-      <RegistrationDialog
-        trial={registerTrial}
-        centres={site.centres ?? []}
-        onClose={() => setRegisterTrial(null)}
-      />
       <PolicyDialog policy={openPolicy} onClose={() => setOpenPolicy(null)} />
     </>
   );
