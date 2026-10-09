@@ -3,7 +3,6 @@ import { useSite } from './lib/useSite.js';
 import Header from './components/Header.jsx';
 import TrialsSection from './components/TrialsSection.jsx';
 import TrialResults from './components/TrialResults.jsx';
-import CurrentTrials from './components/CurrentTrials.jsx';
 import TrialDialog from './components/TrialDialog.jsx';
 import RegistrationDialog from './components/RegistrationDialog.jsx';
 import Journey from './components/Journey.jsx';
@@ -103,15 +102,12 @@ export default function App() {
 
       <main id="main">
         {page === 'home' && (
-          <>
-            <TrialsSection
-              section={site.trialsSection}
-              facets={site.facets}
-              trust={site.hero?.trust ?? []}
-              onSearch={onSearch}
-            />
-            <CurrentTrials trials={site.trials ?? []} onLearnMore={setOpenTrial} />
-          </>
+          <TrialsSection
+            section={site.trialsSection}
+            facets={site.facets}
+            trust={site.hero?.trust ?? []}
+            onSearch={onSearch}
+          />
         )}
 
         {page === 'results' && (
