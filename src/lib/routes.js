@@ -17,6 +17,11 @@ const PAGES = {
   '#contact': 'contact',
 };
 
+/** The report a #report-<id> hash names, or null. */
+export function reportIdFor(hash) {
+  return hash.startsWith('#report-') ? decodeURIComponent(hash.slice('#report-'.length)) : null;
+}
+
 /**
  * The page a hash belongs to, or null for an anchor inside the current page
  * (the skip link's #main, for example), which should not change page.
@@ -24,5 +29,6 @@ const PAGES = {
 export function pageFor(hash) {
   if (hash in PAGES) return PAGES[hash];
   if (hash.startsWith('#trial-')) return 'results';
+  if (hash.startsWith('#report-')) return 'report';
   return null;
 }
