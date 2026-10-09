@@ -30,6 +30,20 @@ function highlightsFrom(section) {
 }
 
 /**
+ * A section whose points are all "Title | Description" becomes numbered step
+ * cards, e.g. "## What happens if I register interest?" with
+ * "- Register your interest | You share your contact details…".
+ */
+function stepsFrom(section) {
+  const items = section.blocks.filter((b) => b.type === 'ul').flatMap((b) => b.items);
+  if (!items.length || !items.every((item) => item.includes('|'))) return null;
+  return items.map((item) => {
+    const [title = '', ...rest] = item.split('|').map((part) => part.trim());
+    return { title, description: rest.join(' | ') };
+  });
+}
+
+/**
  * The trial's details as sections. Each detail paragraph written in the admin
  * that starts with "## Heading" becomes its own section; paragraphs without a
  * heading are gathered into an opening "About this trial" section.
@@ -164,7 +178,39 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
 
         {sections.length > 0 && (
           <div className="trial-sections">
-            {sections.map((section, i) => (
+            {sections.map((section, i) => {
+              const steps = stepsFrom(section);
+              if (steps) {
+                const intro = section.blocks.filter((b) => b.type !== 'ul');
+                return (
+                  <section className="trial-steps" key={section.title + i} aria-labelledby={`trial-section-${i}`}>
+                    <h2 id={`trial-section-${i}`}>
+                      <Inline text={section.title} />
+                    </h2>
+                    {intro.length > 0 && (
+                      <div className="trial-steps-intro">
+                        <Blocks blocks={intro} />
+                      </div>
+                    )}
+                    <ol>
+                      {steps.map((step, j) => (
+                        <li key={step.title + j}>
+                          <span className="trial-step-number">{String(j + 1).padStart(2, '0')}</span>
+                          <h3>
+                            <Inline text={step.title} />
+                          </h3>
+                          {step.description && (
+                            <p>
+                              <Inline text={step.description} />
+                            </p>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  </section>
+                );
+              }
+              return (
               <section className="trial-section" key={section.title + i} aria-labelledby={`trial-section-${i}`}>
                 <div className="trial-section-media">
                   <Image image={{ ...SECTION_IMAGES[i % SECTION_IMAGES.length], alt: '' }} />
@@ -176,7 +222,8 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
                   <Blocks blocks={section.blocks} />
                 </div>
               </section>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -186,7 +233,8 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
               <article className="trial-highlight" key={h.label}>
                 <h3>{h.label}</h3>
                 <div className="trial-highlight-media">
-                  <Image image={{ ...SECTION_IMAGES[(i + 1) % SECTION_IMAGES.length], alt: '' }} />
+                  {/* Two photos in a checkerboard, so no two neighbouring cards match. */}
+                  <Image image={{ ...SECTION_IMAGES[(i + Math.floor(i / 2)) % 2 === 0 ? 1 : 0], alt: '' }} />
                   <span className="trial-highlight-value">{h.value}</span>
                 </div>
                 {h.description && <p>{h.description}</p>}
