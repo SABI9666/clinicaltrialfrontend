@@ -13,10 +13,11 @@ import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import PolicyDialog from './components/PolicyDialog.jsx';
 import { EMPTY_FILTERS, matches } from './lib/trials.js';
-import { pageFor } from './lib/routes.js';
+import { pageFor, reportIdFor } from './lib/routes.js';
+import ReportPage from './components/ReportPage.jsx';
 
 export default function App() {
-  const { site } = useSite();
+  const { site, source, error } = useSite();
 
   const [openTrial, setOpenTrial] = useState(null);
   const [registerTrial, setRegisterTrial] = useState(null);
@@ -26,6 +27,7 @@ export default function App() {
   const enquiryRef = useRef(null);
 
   const [page, setPage] = useState(() => pageFor(window.location.hash) ?? 'home');
+  const [reportId, setReportId] = useState(() => reportIdFor(window.location.hash));
   // The last search; the results page shows every trial until one is run.
   const [search, setSearch] = useState(EMPTY_FILTERS);
   // Set when the enquiry form needs filling once the Contact page renders.
@@ -35,6 +37,7 @@ export default function App() {
     const route = () => {
       const next = pageFor(window.location.hash);
       if (next) setPage(next);
+      setReportId(reportIdFor(window.location.hash));
     };
     window.addEventListener('hashchange', route);
     return () => window.removeEventListener('hashchange', route);
@@ -57,7 +60,7 @@ export default function App() {
       field.dispatchEvent(new Event('input', { bubbles: true }));
       pendingPrefill.current = null;
     }
-  }, [page]);
+  }, [page, reportId]);
 
   const go = useCallback((hash) => {
     if (window.location.hash === hash) setPage(pageFor(hash) ?? 'home');
@@ -136,6 +139,14 @@ export default function App() {
             news={site.news ?? []}
             activeTab={insightsTab}
             onTabChange={setInsightsTab}
+          />
+        )}
+
+        {page === 'report' && (
+          <ReportPage
+            report={(site.reports ?? []).find((r) => String(r.id) === reportId)}
+            // Live reports arrive with the API; until then only the bundled copy is here.
+            loading={source === 'fallback' && !error}
           />
         )}
 
