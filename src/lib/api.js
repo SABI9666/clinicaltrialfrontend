@@ -1,11 +1,12 @@
 /**
  * Client for the Clinical Trial Access API.
  *
- * VITE_API_BASE_URL points at the Cloud Run service in deployed environments.
- * When it is blank the client uses same-origin /api, which is what the Vite
- * dev proxy serves.
+ * Requests go to /api on the site's own address. On Vercel, vercel.json
+ * forwards them to the Cloud Run API; locally, the Vite dev server does. The
+ * browser never makes a cross-origin call, so the site works on any domain it
+ * is served from without that domain being in the API's CORS_ORIGINS.
  */
-const BASE = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '');
+const BASE = '';
 
 const url = (path) => `${BASE}${path}`;
 

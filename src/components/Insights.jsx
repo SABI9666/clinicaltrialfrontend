@@ -1,4 +1,12 @@
 import { useRef } from 'react';
+import RichText from './RichText.jsx';
+import { parsePolicy } from '../lib/policyText.js';
+
+/** The first paragraph of a report, as plain text for its card. */
+function excerpt(body = '') {
+  const first = parsePolicy(body).find((b) => b.type === 'p');
+  return (first?.text ?? '').replace(/\*\*|\*/g, '');
+}
 
 const TABS = [
   { id: 'reports', label: 'Reports' },
@@ -61,16 +69,13 @@ export default function Insights({ insights, reports, faqs, news, activeTab, onT
           hidden={activeTab !== 'reports'}
         >
           {reports.map((report) => (
-            <article className="resource" key={report.id}>
+            // The whole card is the link, so there is one obvious thing to press.
+            <a className="resource report-card" key={report.id} href={`#report-${report.id}`}>
               {report.eyebrow && <span className="eyebrow">{report.eyebrow}</span>}
               <h3>{report.title}</h3>
-              <p>{report.body}</p>
-              {report.footnote && (
-                <p className="small" style={{ marginTop: 20 }}>
-                  {report.footnote}
-                </p>
-              )}
-            </article>
+              <p className="report-excerpt">{excerpt(report.body)}</p>
+              <span className="report-more">Read report →</span>
+            </a>
           ))}
         </div>
 
@@ -78,7 +83,9 @@ export default function Insights({ insights, reports, faqs, news, activeTab, onT
           {faqs.map((faq) => (
             <details key={faq.id}>
               <summary>{faq.question}</summary>
-              <p>{faq.answer}</p>
+              <div className="faq-answer">
+                <RichText text={faq.answer} headingLevel={4} />
+              </div>
             </details>
           ))}
         </div>
