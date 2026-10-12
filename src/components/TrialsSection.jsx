@@ -1,27 +1,22 @@
 import TrialSearch from './TrialSearch.jsx';
 
-/** The top of the home page: the trial search, presented as the page's hero. */
-export default function TrialsSection({ section, facets, trust = [], onSearch }) {
+/** The home page's trial search: pick a condition and location, then see the results. */
+export default function TrialsSection({ section, facets, onSearch }) {
   return (
-    <section id="trials" className="landing">
+    <section id="trials" className="find-trial">
       <div className="wrap">
-        <div className="landing-head">
-          {section?.eyebrow && <span className="eyebrow">{section.eyebrow}</span>}
-          <h1>{section?.title}</h1>
-          {section?.intro && <p className="landing-intro">{section.intro}</p>}
+        <div className="section-head">
+          <div>
+            {section?.eyebrow && <span className="eyebrow">{section.eyebrow}</span>}
+            <h2>{section?.title}</h2>
+            {section?.intro && <p>{section.intro}</p>}
+          </div>
+          {section?.aside && <span className="section-aside">{section.aside}</span>}
         </div>
 
         <TrialSearch id="search" section={section} facets={facets} onSearch={onSearch} />
 
-        {trust.length > 0 && (
-          <ul className="landing-trust" aria-label="About Clinical Trial Access">
-            {trust.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        )}
-
-        {section?.disclaimer && <p className="landing-note">{section.disclaimer}</p>}
+        {section?.disclaimer && <p className="small">{section.disclaimer}</p>}
       </div>
     </section>
   );

@@ -11,7 +11,9 @@ import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import PolicyDialog from './components/PolicyDialog.jsx';
 import { EMPTY_FILTERS, matches } from './lib/trials.js';
-import { pageFor, reportIdFor, trialSlugFor } from './lib/routes.js';
+import { pageFor, reportIdFor, trialHash, trialSlugFor } from './lib/routes.js';
+import Hero from './components/Hero.jsx';
+import CurrentTrials from './components/CurrentTrials.jsx';
 import TrialPage from './components/TrialPage.jsx';
 import ReportPage from './components/ReportPage.jsx';
 
@@ -46,7 +48,9 @@ export default function App() {
   // A new page starts at the top, or at the section its link named.
   useLayoutEffect(() => {
     const hash = window.location.hash;
-    const target = hash.length > 1 && pageFor(hash) === page ? document.querySelector(hash) : null;
+    // By id rather than selector: a trial's address (#trial-<slug>/<code>) is not a valid selector.
+    const target =
+      hash.length > 1 && pageFor(hash) === page ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
     const isPageRoot = target && target.closest('main > section:first-child') === target;
     if (target && !isPageRoot) target.scrollIntoView();
     else window.scrollTo(0, 0);
@@ -86,7 +90,7 @@ export default function App() {
     [go],
   );
 
-  const openTrial = useCallback((trial) => go(`#trial-${trial.slug}`), [go]);
+  const openTrial = useCallback((trial) => go(trialHash(trial)), [go]);
 
   const onShowFaqs = useCallback(() => setInsightsTab('faqs'), []);
 
@@ -100,12 +104,16 @@ export default function App() {
 
       <main id="main">
         {page === 'home' && (
-          <TrialsSection
-            section={site.trialsSection}
-            facets={site.facets}
-            trust={site.hero?.trust ?? []}
-            onSearch={onSearch}
-          />
+          <>
+            <Hero hero={site.hero} />
+            <CurrentTrials
+              section={site.trialsSection}
+              trials={site.trials ?? []}
+              onLearnMore={openTrial}
+            />
+            <Journey journey={site.journey} />
+            <TrialsSection section={site.trialsSection} facets={site.facets} onSearch={onSearch} />
+          </>
         )}
 
         {page === 'results' && (
@@ -120,7 +128,6 @@ export default function App() {
               onNewSearch={() => go('#trials')}
               onLearnMore={openTrial}
             />
-            <Journey journey={site.journey} />
           </>
         )}
 

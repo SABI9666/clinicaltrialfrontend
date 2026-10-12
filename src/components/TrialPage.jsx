@@ -12,6 +12,79 @@ const SECTION_IMAGES = [
 ];
 
 const GLANCE = /^at a glance$/i;
+const SITES = /^study sites$/i;
+
+/**
+ * A "## Study sites" section becomes contact cards. Each "- " line is
+ * "Name | Location | Site coordinator | Phone | Email"; leave a part empty
+ * when it isn't known, e.g. "Example Hospital | NSW | | | site@example.org".
+ */
+function sitesFrom(section) {
+  return section.blocks
+    .filter((b) => b.type === 'ul')
+    .flatMap((b) => b.items)
+    .map((item) => {
+      const [name = '', location = '', coordinator = '', phone = '', email = ''] = item
+        .split('|')
+        .map((part) => part.trim());
+      return { name, location, coordinator, phone, email };
+    })
+    .filter((site) => site.name);
+}
+
+function StudySites({ section, index }) {
+  const sites = sitesFrom(section);
+  const intro = section.blocks.filter((b) => b.type !== 'ul');
+  return (
+    <section className="trial-sites" aria-labelledby={`trial-section-${index}`}>
+      <h2 id={`trial-section-${index}`}>
+        <Inline text={section.title} />
+      </h2>
+      {intro.length > 0 && (
+        <div className="trial-steps-intro">
+          <Blocks blocks={intro} />
+        </div>
+      )}
+      <ul className="site-cards">
+        {sites.map((site) => (
+          <li key={site.name}>
+            <h3>{site.name}</h3>
+            <dl>
+              {site.location && (
+                <div>
+                  <dt>Location</dt>
+                  <dd>{site.location}</dd>
+                </div>
+              )}
+              {site.coordinator && (
+                <div>
+                  <dt>Site coordinator</dt>
+                  <dd>{site.coordinator}</dd>
+                </div>
+              )}
+              {site.phone && (
+                <div>
+                  <dt>Phone</dt>
+                  <dd>
+                    <a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a>
+                  </dd>
+                </div>
+              )}
+              {site.email && (
+                <div>
+                  <dt>Email</dt>
+                  <dd>
+                    <a href={`mailto:${site.email}`}>{site.email}</a>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
 
 /**
  * An "## At a glance" section becomes highlight cards. Each "- " line is
@@ -27,6 +100,20 @@ function highlightsFrom(section) {
       return { label, value, description: rest.join(' | ') };
     })
     .filter((h) => h.label && h.value);
+}
+
+/**
+ * A section whose points are all "Title | Description" becomes numbered step
+ * cards, e.g. "## What happens if I register interest?" with
+ * "- Register your interest | You share your contact details…".
+ */
+function stepsFrom(section) {
+  const items = section.blocks.filter((b) => b.type === 'ul').flatMap((b) => b.items);
+  if (!items.length || !items.every((item) => item.includes('|'))) return null;
+  return items.map((item) => {
+    const [title = '', ...rest] = item.split('|').map((part) => part.trim());
+    return { title, description: rest.join(' | ') };
+  });
 }
 
 /**
@@ -164,7 +251,40 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
 
         {sections.length > 0 && (
           <div className="trial-sections">
-            {sections.map((section, i) => (
+            {sections.map((section, i) => {
+              if (SITES.test(section.title)) return <StudySites key={section.title + i} section={section} index={i} />;
+              const steps = stepsFrom(section);
+              if (steps) {
+                const intro = section.blocks.filter((b) => b.type !== 'ul');
+                return (
+                  <section className="trial-steps" key={section.title + i} aria-labelledby={`trial-section-${i}`}>
+                    <h2 id={`trial-section-${i}`}>
+                      <Inline text={section.title} />
+                    </h2>
+                    {intro.length > 0 && (
+                      <div className="trial-steps-intro">
+                        <Blocks blocks={intro} />
+                      </div>
+                    )}
+                    <ol>
+                      {steps.map((step, j) => (
+                        <li key={step.title + j}>
+                          <span className="trial-step-number">{String(j + 1).padStart(2, '0')}</span>
+                          <h3>
+                            <Inline text={step.title} />
+                          </h3>
+                          {step.description && (
+                            <p>
+                              <Inline text={step.description} />
+                            </p>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  </section>
+                );
+              }
+              return (
               <section className="trial-section" key={section.title + i} aria-labelledby={`trial-section-${i}`}>
                 <div className="trial-section-media">
                   <Image image={{ ...SECTION_IMAGES[i % SECTION_IMAGES.length], alt: '' }} />
@@ -176,7 +296,8 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
                   <Blocks blocks={section.blocks} />
                 </div>
               </section>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -186,7 +307,8 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
               <article className="trial-highlight" key={h.label}>
                 <h3>{h.label}</h3>
                 <div className="trial-highlight-media">
-                  <Image image={{ ...SECTION_IMAGES[(i + 1) % SECTION_IMAGES.length], alt: '' }} />
+                  {/* Two photos in a checkerboard, so no two neighbouring cards match. */}
+                  <Image image={{ ...SECTION_IMAGES[(i + Math.floor(i / 2)) % 2 === 0 ? 1 : 0], alt: '' }} />
                   <span className="trial-highlight-value">{h.value}</span>
                 </div>
                 {h.description && <p>{h.description}</p>}
