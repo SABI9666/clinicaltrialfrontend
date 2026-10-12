@@ -12,6 +12,79 @@ const SECTION_IMAGES = [
 ];
 
 const GLANCE = /^at a glance$/i;
+const SITES = /^study sites$/i;
+
+/**
+ * A "## Study sites" section becomes contact cards. Each "- " line is
+ * "Name | Location | Site coordinator | Phone | Email"; leave a part empty
+ * when it isn't known, e.g. "Example Hospital | NSW | | | site@example.org".
+ */
+function sitesFrom(section) {
+  return section.blocks
+    .filter((b) => b.type === 'ul')
+    .flatMap((b) => b.items)
+    .map((item) => {
+      const [name = '', location = '', coordinator = '', phone = '', email = ''] = item
+        .split('|')
+        .map((part) => part.trim());
+      return { name, location, coordinator, phone, email };
+    })
+    .filter((site) => site.name);
+}
+
+function StudySites({ section, index }) {
+  const sites = sitesFrom(section);
+  const intro = section.blocks.filter((b) => b.type !== 'ul');
+  return (
+    <section className="trial-sites" aria-labelledby={`trial-section-${index}`}>
+      <h2 id={`trial-section-${index}`}>
+        <Inline text={section.title} />
+      </h2>
+      {intro.length > 0 && (
+        <div className="trial-steps-intro">
+          <Blocks blocks={intro} />
+        </div>
+      )}
+      <ul className="site-cards">
+        {sites.map((site) => (
+          <li key={site.name}>
+            <h3>{site.name}</h3>
+            <dl>
+              {site.location && (
+                <div>
+                  <dt>Location</dt>
+                  <dd>{site.location}</dd>
+                </div>
+              )}
+              {site.coordinator && (
+                <div>
+                  <dt>Site coordinator</dt>
+                  <dd>{site.coordinator}</dd>
+                </div>
+              )}
+              {site.phone && (
+                <div>
+                  <dt>Phone</dt>
+                  <dd>
+                    <a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a>
+                  </dd>
+                </div>
+              )}
+              {site.email && (
+                <div>
+                  <dt>Email</dt>
+                  <dd>
+                    <a href={`mailto:${site.email}`}>{site.email}</a>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
 
 /**
  * An "## At a glance" section becomes highlight cards. Each "- " line is
@@ -179,6 +252,7 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
         {sections.length > 0 && (
           <div className="trial-sections">
             {sections.map((section, i) => {
+              if (SITES.test(section.title)) return <StudySites key={section.title + i} section={section} index={i} />;
               const steps = stepsFrom(section);
               if (steps) {
                 const intro = section.blocks.filter((b) => b.type !== 'ul');

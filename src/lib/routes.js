@@ -9,8 +9,9 @@ const PAGES = {
   '#home': 'home',
   '#trials': 'home',
   '#search': 'home',
+  '#current-trials': 'home',
   '#results': 'results',
-  '#journey': 'results',
+  '#journey': 'home',
   '#why': 'why',
   '#insights': 'insights',
   '#about': 'about',
@@ -19,7 +20,21 @@ const PAGES = {
 
 /** The trial a #trial-<slug> hash names, or null. */
 export function trialSlugFor(hash) {
-  return hash.startsWith('#trial-') ? decodeURIComponent(hash.slice('#trial-'.length)) : null;
+  if (!hash.startsWith('#trial-')) return null;
+  // The address may carry the study code after the slug: #trial-<slug>/<code>.
+  return decodeURIComponent(hash.slice('#trial-'.length).split('/')[0]);
+}
+
+/** A trial's study code (e.g. CYWC628), taken from its tags, or ''. */
+export function studyCodeFor(trial) {
+  const text = `${trial?.detail?.tag ?? ''} ${trial?.tag ?? ''}`;
+  return text.match(/\b[A-Z]{2,}\d{2,}\b/)?.[0] ?? '';
+}
+
+/** The address of a trial's page: #trial-<slug>, plus /<code> when it has one. */
+export function trialHash(trial) {
+  const code = studyCodeFor(trial);
+  return `#trial-${trial.slug}${code ? `/${code}` : ''}`;
 }
 
 /** The report a #report-<id> hash names, or null. */
