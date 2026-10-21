@@ -52,8 +52,10 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
 
         <form id="contact-form" onSubmit={onSubmit}>
           <div className="form-grid">
-            <label>
-              Name
+            <label className="field-label">
+              <span>
+                Name <span className="req" aria-label="required">*</span>
+              </span>
               <input
                 autoComplete="name"
                 required
@@ -62,8 +64,11 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
                 onChange={set('name')}
               />
             </label>
-            <label>
-              Country
+
+            <label className="field-label">
+              <span>
+                Country <span className="req" aria-label="required">*</span>
+              </span>
               <input
                 autoComplete="country-name"
                 required
@@ -72,8 +77,11 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
                 onChange={set('country')}
               />
             </label>
-            <label>
-              Email
+
+            <label className="field-label">
+              <span>
+                Email <span className="req" aria-label="required">*</span>
+              </span>
               <input
                 type="email"
                 autoComplete="email"
@@ -83,6 +91,7 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
                 onChange={set('email')}
               />
             </label>
+
             <label>
               Phone number · optional
               <input
@@ -93,6 +102,7 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
                 onChange={set('phone')}
               />
             </label>
+
             <label className="full">
               Your enquiry
               <textarea
