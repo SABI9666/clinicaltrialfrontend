@@ -108,3 +108,42 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
               <textarea
                 ref={messageRef}
                 id="enquiry"
+                rows={5}
+                required
+                maxLength={2000}
+                value={values.message}
+                onChange={set('message')}
+              />
+            </label>
+
+            {/* Honeypot: hidden from people, tempting to bots. */}
+            <input
+              type="text"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={values.company}
+              onChange={set('company')}
+              style={{ position: 'absolute', left: '-9999px', width: 1, height: 1 }}
+            />
+
+            <div className="full">
+              {contact?.formNote && <p className="small">{contact.formNote}</p>}
+              <button className="btn" type="submit" disabled={state === 'sending'}>
+                {state === 'sending'
+                  ? 'Sending…'
+                  : contact?.submitLabel || 'Send enquiry'}
+              </button>
+              <p id="form-status" className="status" role="status">
+                {status}
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+});
+
+export default Contact;
