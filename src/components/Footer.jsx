@@ -1,4 +1,5 @@
 import Brand from './Brand.jsx';
+import { linkHref } from '../lib/routes.js';
 
 export default function Footer({ settings, footer, policies, onShowPolicy, onShowFaqs }) {
   return (
@@ -14,7 +15,7 @@ export default function Footer({ settings, footer, policies, onShowPolicy, onSho
             {(footer?.links ?? []).map((link) => (
               <a
                 key={link.label + link.href}
-                href={link.href}
+                href={linkHref(link.href)}
                 onClick={link.action === 'faqs' ? onShowFaqs : undefined}
               >
                 {link.label}

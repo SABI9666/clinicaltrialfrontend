@@ -1,3 +1,5 @@
+import { linkHref } from '../lib/routes.js';
+
 export default function About({ about }) {
   if (!about) return null;
   const wordmark = about.wordmark ?? {};
@@ -12,7 +14,7 @@ export default function About({ about }) {
             <p key={i}>{text}</p>
           ))}
           {about.cta?.label && (
-            <a className="btn" href={about.cta.href}>
+            <a className="btn" href={linkHref(about.cta.href)}>
               {about.cta.label}
             </a>
           )}

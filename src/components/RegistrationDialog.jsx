@@ -138,7 +138,7 @@ export default function RegistrationDialog({ trial, centres = [], onClose, inlin
                   <>
                     <fieldset className="registration-step">
                       <legend>
-                        Pre-screening consent <em className="req">(Required)</em>
+                        Pre-screening consent <span className="req" aria-label="required">*</span>
                       </legend>
                       <label className="consent-box">
                         <input
@@ -174,7 +174,7 @@ export default function RegistrationDialog({ trial, centres = [], onClose, inlin
                       <legend className="sr-only">Your contact details</legend>
                       <div className="form-grid">
                         <label>
-                          First name <em className="req">(Required)</em>
+                          First name <span className="req" aria-label="required">*</span>
                           <input
                             required
                             autoComplete="given-name"
@@ -184,7 +184,7 @@ export default function RegistrationDialog({ trial, centres = [], onClose, inlin
                           />
                         </label>
                         <label>
-                          Last name <em className="req">(Required)</em>
+                          Last name <span className="req" aria-label="required">*</span>
                           <input
                             required
                             autoComplete="family-name"
@@ -195,7 +195,7 @@ export default function RegistrationDialog({ trial, centres = [], onClose, inlin
                         </label>
                       </div>
                       <label>
-                        Email address <em className="req">(Required)</em>
+                        Email address <span className="req" aria-label="required">*</span>
                         <input
                           type="email"
                           required
@@ -206,7 +206,7 @@ export default function RegistrationDialog({ trial, centres = [], onClose, inlin
                         />
                       </label>
                       <label>
-                        Phone number <em className="req">(Required)</em>
+                        Phone number <span className="req" aria-label="required">*</span>
                         <input
                           type="tel"
                           required
@@ -297,7 +297,7 @@ export default function RegistrationDialog({ trial, centres = [], onClose, inlin
 
                       <label>
                         {reg.centreLabel || 'Which centre is the most convenient for you?'}{' '}
-                        <em className="req">(Required)</em>
+                        <span className="req" aria-label="required">*</span>
                         <select
                           required
                           value={centreId}
@@ -349,7 +349,7 @@ export default function RegistrationDialog({ trial, centres = [], onClose, inlin
             </>
           )}
         </div>
-  );
+   );
 
   if (inline) {
     return (

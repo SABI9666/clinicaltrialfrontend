@@ -52,8 +52,10 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
 
         <form id="contact-form" onSubmit={onSubmit}>
           <div className="form-grid">
-            <label>
-              Name
+            <label className="field-label">
+              <span>
+                Name <span className="req" aria-label="required">*</span>
+              </span>
               <input
                 autoComplete="name"
                 required
@@ -62,8 +64,11 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
                 onChange={set('name')}
               />
             </label>
-            <label>
-              Country
+
+            <label className="field-label">
+              <span>
+                Country <span className="req" aria-label="required">*</span>
+              </span>
               <input
                 autoComplete="country-name"
                 required
@@ -72,8 +77,11 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
                 onChange={set('country')}
               />
             </label>
-            <label>
-              Email
+
+            <label className="field-label">
+              <span>
+                Email <span className="req" aria-label="required">*</span>
+              </span>
               <input
                 type="email"
                 autoComplete="email"
@@ -83,8 +91,9 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
                 onChange={set('email')}
               />
             </label>
+
             <label>
-              Phone number · optional
+              Phone number
               <input
                 type="tel"
                 autoComplete="tel"
@@ -93,6 +102,7 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
                 onChange={set('phone')}
               />
             </label>
+
             <label className="full">
               Your enquiry
               <textarea
@@ -106,7 +116,7 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
               />
             </label>
 
-            {/* Honeypot: hidden from people, irresistible to bots. */}
+            {/* Honeypot: hidden from people, tempting to bots. */}
             <input
               type="text"
               name="company"
@@ -121,7 +131,9 @@ const Contact = forwardRef(function Contact({ contact, trialSlug }, messageRef) 
             <div className="full">
               {contact?.formNote && <p className="small">{contact.formNote}</p>}
               <button className="btn" type="submit" disabled={state === 'sending'}>
-                {state === 'sending' ? 'Sending…' : (contact?.submitLabel ?? 'Send Enquiry ↗')}
+                {state === 'sending'
+                  ? 'Sending…'
+                  : contact?.submitLabel || 'Send enquiry'}
               </button>
               <p id="form-status" className="status" role="status">
                 {status}
