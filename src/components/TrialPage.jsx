@@ -186,7 +186,7 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
     return (
       <section id="trial" className="article-page">
         <div className="wrap">
-          <a className="back-link" href="#results">
+          <a className="back-link" href="/results">
             ← All trials
           </a>
           <div className="article">
@@ -208,7 +208,7 @@ export default function TrialPage({ trial, centres, loading, onEnquire }) {
   return (
     <section id="trial" className="trial-page">
       <div className="wrap">
-        <a className="back-link" href="#results">
+        <a className="back-link" href="/results">
           ← Back to results
         </a>
 

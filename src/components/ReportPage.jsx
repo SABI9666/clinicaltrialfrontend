@@ -5,7 +5,7 @@ export default function ReportPage({ report, loading }) {
   return (
     <section id="report" className="article-page">
       <div className="wrap">
-        <a className="back-link" href="#insights">
+        <a className="back-link" href="/insights">
           ← All reports
         </a>
 
@@ -20,7 +20,7 @@ export default function ReportPage({ report, loading }) {
 
             <div className="article-cta">
               <p>Looking for a clinical trial that may be relevant to you?</p>
-              <a className="btn" href="#trials">
+              <a className="btn" href="/trials">
                 Find a clinical trial ↗
               </a>
             </div>

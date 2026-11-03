@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Brand from './Brand.jsx';
-import { pageFor } from '../lib/routes.js';
+import { linkHref, pageFor } from '../lib/routes.js';
 
 /** Pages reached from a menu item, rather than listed in it, mark that item. */
 const MENU_PAGE = { results: 'home', trial: 'home', report: 'insights' };
@@ -42,7 +42,7 @@ export default function Header({ settings, page }) {
           {(settings?.nav ?? []).map((link) => (
             <a
               key={link.href + link.label}
-              href={link.href}
+              href={linkHref(link.href)}
               aria-current={pageFor(link.href) === menuPage ? 'page' : undefined}
               onClick={() => setOpen(false)}
             >
@@ -52,7 +52,7 @@ export default function Header({ settings, page }) {
           {settings?.navCta?.label && (
             <a
               className="btn"
-              href={settings.navCta.href}
+              href={linkHref(settings.navCta.href)}
               aria-current={pageFor(settings.navCta.href) === menuPage ? 'page' : undefined}
               onClick={() => setOpen(false)}
             >

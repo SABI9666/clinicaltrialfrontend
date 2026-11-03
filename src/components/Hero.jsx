@@ -1,3 +1,4 @@
+import { linkHref } from '../lib/routes.js';
 import Image from './Image.jsx';
 
 export default function Hero({ hero }) {
@@ -23,12 +24,12 @@ export default function Hero({ hero }) {
 
             <div className="actions">
               {hero.primaryCta?.label && (
-                <a className="btn" href={hero.primaryCta.href}>
+                <a className="btn" href={linkHref(hero.primaryCta.href)}>
                   {hero.primaryCta.label} {hero.primaryCta.icon && <span>{hero.primaryCta.icon}</span>}
                 </a>
               )}
               {hero.secondaryCta?.label && (
-                <a className="btn light" href={hero.secondaryCta.href}>
+                <a className="btn light" href={linkHref(hero.secondaryCta.href)}>
                   {hero.secondaryCta.label}
                 </a>
               )}

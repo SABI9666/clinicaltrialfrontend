@@ -1,3 +1,4 @@
+import { linkHref } from '../lib/routes.js';
 import Image from './Image.jsx';
 
 export default function WhyJoin({ why }) {
@@ -20,7 +21,7 @@ export default function WhyJoin({ why }) {
             <p key={i}>{text}</p>
           ))}
           {why.cta?.label && (
-            <a className="btn light" href={why.cta.href}>
+            <a className="btn light" href={linkHref(why.cta.href)}>
               {why.cta.label}
             </a>
           )}
