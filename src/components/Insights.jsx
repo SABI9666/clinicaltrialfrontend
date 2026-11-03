@@ -70,7 +70,7 @@ export default function Insights({ insights, reports, faqs, news, activeTab, onT
         >
           {reports.map((report) => (
             // The whole card is the link, so there is one obvious thing to press.
-            <a className="resource report-card" key={report.id} href={`#report-${report.id}`}>
+            <a className="resource report-card" key={report.id} href={`/report-${encodeURIComponent(report.id)}`}>
               {report.eyebrow && <span className="eyebrow">{report.eyebrow}</span>}
               <h3>{report.title}</h3>
               <p className="report-excerpt">{excerpt(report.body)}</p>
